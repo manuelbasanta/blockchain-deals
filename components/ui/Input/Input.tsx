@@ -1,13 +1,28 @@
 "use client";
 
-const Input = ({ label, type, placeholder, prefix = null, info = null}) => {
+import classNames from "classnames";
+import { useState } from "react";
+
+const Input = ({ label, type, placeholder, validationText = 'Invalid input', prefix = null, info = null}) => {
+    const [touched, setTouched] = useState(false);
+    const [isValid, setIsValid] = useState(false);
+
+    const inputClassName = classNames(
+        'flex w-full items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-300',
+        {'ring-2 mb-0 ring-inset ring-red-300 focus-within:ring-red-300': !isValid && touched}
+    )
+
+    const handleBlur = () => {
+        setTouched(true);
+    }
+
     return (
         <div>
             <label htmlFor={label} className="block text-sm font-medium leading-6 text-gray-900">{label}</label>
             <div className="mt-2">
-                <div className="flex w-full items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-300">
+                <div className={inputClassName}>
                     { prefix && <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">{prefix}</span>}
-                    <input autoComplete={label} type={type} name={label} id={label} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate" placeholder={placeholder}></input>
+                    <input onBlur={handleBlur} autoComplete={label} type={type} name={label} id={label} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate" placeholder={placeholder}></input>
                     {
                         info &&
                         <div className="mr-2 text-gray-500" title={info}>
@@ -18,6 +33,7 @@ const Input = ({ label, type, placeholder, prefix = null, info = null}) => {
                     }
                 </div>
             </div>
+            { (touched && !isValid) && <label className="block text-sm font-light leading-6 text-red-600 mt-1">{validationText}</label>}
         </div>
     );
 }
