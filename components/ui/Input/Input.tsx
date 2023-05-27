@@ -1,8 +1,6 @@
 "use client";
-import { useState } from "react";
 
 const Input = ({ label, type, placeholder, prefix = null, info = null}) => {
-    const [value, setValue] = useState('');
     return (
         <div>
             <label htmlFor={label} className="block text-sm font-medium leading-6 text-gray-900">{label}</label>
