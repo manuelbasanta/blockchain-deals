@@ -3,9 +3,19 @@
 import classNames from "classnames";
 import { useState } from "react";
 
-const Input = ({ label, type, placeholder, validationText = 'Invalid input', prefix = null, info = null}) => {
+const Input = ({
+    value,
+    handleChange,
+    isValid,
+    label,
+    type,
+    placeholder,
+    validationText = 'Invalid input',
+    prefix = null,
+    info = null
+}) => {
+
     const [touched, setTouched] = useState(false);
-    const [isValid, setIsValid] = useState(false);
 
     const inputClassName = classNames(
         'flex w-full items-center rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-green-300',
@@ -22,7 +32,7 @@ const Input = ({ label, type, placeholder, validationText = 'Invalid input', pre
             <div className="mt-2">
                 <div className={inputClassName}>
                     { prefix && <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">{prefix}</span>}
-                    <input onBlur={handleBlur} autoComplete={label} type={type} name={label} id={label} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate" placeholder={placeholder}></input>
+                    <input value={value} onChange={(event) => handleChange(event.target.value)} onBlur={handleBlur} autoComplete={label} type={type} name={label} id={label} placeholder={placeholder} spellCheck={false} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate"></input>
                     {
                         info &&
                         <div className="mr-2 text-gray-500" title={info}>
