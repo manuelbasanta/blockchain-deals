@@ -12,17 +12,21 @@
   "author": "Manuel Basanta",
   "license": "ISC",
   "dependencies": {
+    "@rainbow-me/rainbowkit": "^1.0.1",
     "classnames": "^2.3.2",
     "ethers": "^6.4.0",
     "next": "^13.4.4",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "viem": "^0.3.40",
+    "wagmi": "^1.0.9"
   },
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.3",
     "@types/node": "20.1.4",
     "@types/react": "18.2.6",
     "autoprefixer": "^10.4.14",
+    "encoding": "^0.1.13",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "postcss": "^8.4.23",

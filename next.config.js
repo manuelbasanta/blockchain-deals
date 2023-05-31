@@ -9,6 +9,7 @@ const nextConfig = {
         return config;
     },
     env: {
+        alchemyId: process.env.ALCHEMY_ID,
         walletConnectId: process.env.WALLET_CONNECT_ID,
     }
 };
