@@ -9,9 +9,11 @@ const nextConfig = {
         return config;
     },
     env: {
-        alchemyId: process.env.ALCHEMY_ID,
+        alchemySepoliaId: process.env.ALCHEMY_SEPOLIA_ID,
+        alchemyMainnetId: process.env.ALCHEMY_MAINNET_ID,
         walletConnectId: process.env.WALLET_CONNECT_ID,
-        hardhatContractAddress: process.env.HARDHAT_CONTRACT_ADDRESS
+        hardhatContractAddress: process.env.HARDHAT_CONTRACT_ADDRESS,
+        sepoliaContractAddress: '0x41809d151683c6e9d645b7b20636dbD3DEe71C6b',
     }
 };
    

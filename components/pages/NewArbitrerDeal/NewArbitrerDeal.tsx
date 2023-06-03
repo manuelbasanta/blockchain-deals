@@ -4,13 +4,16 @@ import { ethers } from "ethers";
 import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
 import Selector from "../../ui/Selector/Selector";
-import { ClientContext } from "../../ui/WalletConnectContainer/ClientContext";
 import abi from '../../../contracts/BlockchainDeal.json';
-import { parseEther } from "viem";
 import { EXPIRATION_VALUES, ONE_DAY } from "../NewDeal/expiration";
+import { useContractWrite } from "wagmi";
 
 const NewArbitrerDeal = () => {
-    const context = useContext(ClientContext);
+    const { data, isLoading, isSuccess, write } = useContractWrite({
+        address: process.env.sepoliaContractAddress,
+        abi,
+        functionName: 'createArbitrerDeal',
+    });
 
     const handleFormSubmit = (event): void => {
         event.preventDefault();
@@ -27,21 +30,13 @@ const NewArbitrerDeal = () => {
     }
 
     const createDeal = async () => {
-       const {walletClient} = context;
-       const {address:signer} = walletClient.account;
-       console.log(walletClient)
-       console.log(ethers.parseUnits(transactionData.value, 'ether'));
        const value =  ethers.parseUnits(transactionData.value, 'ether');
        try {
-        const tx = await walletClient.writeContract({
-            address: '0x5fbdb2315678afecb367f032d93f642f64180aa3',
-            abi,
-            functionName: 'createArbitrerDeal',
+        write({
             args: [value, arbitrerData.value, buyerData.value, expirationDate],
-            account: signer,
             value,
         })
-        console.log(tx);
+        console.log(data);
        } catch (error) {
             console.log(error);
        }
@@ -105,8 +100,8 @@ const NewArbitrerDeal = () => {
             <div className="border border-gray-300 rounded p-5">
                 <form className="flex flex-col gap-6">
                     <Input data={transactionData} validationText="The value should be grater than 0" handleChange={handleValueChange} label="Value" placeholder="Value of the transaction in ETH" type="number" />
-                    <Input data={arbitrerData} validationText="Invalid Etheteum address"  handleChange={handleArbitrerChange} label="Arbitrer" prefix="0x" placeholder="Arbitrer's Ethereum address" type="text" info="This should be someone you and the beneficiary trust"/>
-                    <Input data={buyerData} validationText="Invalid Etheteum address" handleChange={handleBuyerChange} label="Buyer / Beneficiary" prefix="0x" placeholder="Buyer's / Beneficiary's Ethereum address" type="text" />
+                    <Input data={arbitrerData} validationText="Invalid Etheteum address"  handleChange={handleArbitrerChange} label="Arbitrer" placeholder="Arbitrer's Ethereum address" type="text" info="This should be someone you and the beneficiary trust"/>
+                    <Input data={buyerData} validationText="Invalid Etheteum address" handleChange={handleBuyerChange} label="Buyer / Beneficiary" placeholder="Buyer's / Beneficiary's Ethereum address" type="text" />
                     <Selector value={expirationDate} label="Expires in" items={EXPIRATION_VALUES} onSelect={(selected) => setExpirationDate(selected)}/>
                     <div className="flex">
                         <Button label="Create Arbitrer Deal" onClick={handleFormSubmit} type="primary"/>

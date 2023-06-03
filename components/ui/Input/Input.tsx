@@ -24,7 +24,7 @@ const Input = ({
             <div className="mt-2">
                 <div className={inputClassName}>
                     { prefix && <span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">{prefix}</span>}
-                    <input value={value} onChange={(event) => handleChange(event.target.value, true)} onBlur={() => handleChange(value, true)} autoComplete={label} type={type} name={label} id={label} placeholder={placeholder} spellCheck={false} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate"></input>
+                    <input value={value} onChange={(event) => handleChange(event.target.value, false)} onBlur={() => handleChange(value, true)} autoComplete={label} type={type} name={label} id={label} placeholder={placeholder} spellCheck={false} className="block flex-1 border-0 bg-transparent py-1.5 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 truncate"></input>
                     {
                         info &&
                         <div className="mr-2 text-gray-500" title={info}>

@@ -1,15 +1,12 @@
 "use client";
 
 import WalletConnectContainer from '../../components/ui/WalletConnectContainer/WalletConnectContainer';
-import '@rainbow-me/rainbowkit/styles.css';
-
-import {
-  getDefaultWallets,
-  RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { hardhat, mainnet, sepolia } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public';
+import { alchemyProvider } from '@wagmi/core/providers/alchemy';
+import { publicProvider } from '@wagmi/core/providers/public';
 
 const NewDealLayout = ({
     children,
@@ -17,33 +14,36 @@ const NewDealLayout = ({
     children: React.ReactNode;
   }) => {
 
-    const { chains, publicClient } = configureChains(
+    const { chains, publicClient, webSocketPublicClient } = configureChains(
       [mainnet, sepolia, hardhat],
       [
+        alchemyProvider({ apiKey: process.env.alchemySepoliaId }),
+        alchemyProvider({ apiKey: process.env.alchemyMainnetId }),
         publicProvider()
-      ]
+      ],
     );
-    
-    const { connectors } = getDefaultWallets({
-      appName: 'Blockchain Deals',
-      projectId: process.env.walletConnectId,
-      chains
-    });
     
     const wagmiConfig = createConfig({
       autoConnect: true,
-      connectors,
-      publicClient
+      connectors: [
+        new MetaMaskConnector ({ chains }),
+        new CoinbaseWalletConnector({
+          chains,
+          options: {
+            appName: 'wagmi',
+          },
+        }),
+      ],
+      publicClient,
+      webSocketPublicClient,
     })
-    
+
     return (
       <>
         <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider chains={chains}>
-            <WalletConnectContainer>
-              {children}
-            </WalletConnectContainer>
-          </RainbowKitProvider>
+          <WalletConnectContainer>
+            {children}
+          </WalletConnectContainer>
         </WagmiConfig>
       </>
     );
