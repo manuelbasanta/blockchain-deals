@@ -11,11 +11,11 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { hardhat, mainnet, sepolia } from 'wagmi/chains'
 import { publicProvider } from 'wagmi/providers/public';
 
-export default function NewDealLayout({
+const NewDealLayout = ({
     children,
   }: {
     children: React.ReactNode;
-  }) {
+  }) => {
 
     const { chains, publicClient } = configureChains(
       [mainnet, sepolia, hardhat],
@@ -25,7 +25,7 @@ export default function NewDealLayout({
     );
     
     const { connectors } = getDefaultWallets({
-      appName: 'My RainbowKit App',
+      appName: 'Blockchain Deals',
       projectId: process.env.walletConnectId,
       chains
     });
@@ -38,13 +38,15 @@ export default function NewDealLayout({
     
     return (
       <>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider chains={chains}>
-          <WalletConnectContainer>
-            {children}
-          </WalletConnectContainer>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider chains={chains}>
+            <WalletConnectContainer>
+              {children}
+            </WalletConnectContainer>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </>
     );
   }
+
+export default NewDealLayout;

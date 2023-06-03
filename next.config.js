@@ -11,6 +11,7 @@ const nextConfig = {
     env: {
         alchemyId: process.env.ALCHEMY_ID,
         walletConnectId: process.env.WALLET_CONNECT_ID,
+        hardhatContractAddress: process.env.HARDHAT_CONTRACT_ADDRESS
     }
 };
    
