@@ -13,7 +13,8 @@ const nextConfig = {
         alchemyMainnetId: process.env.ALCHEMY_MAINNET_ID,
         walletConnectId: process.env.WALLET_CONNECT_ID,
         hardhatContractAddress: process.env.HARDHAT_CONTRACT_ADDRESS,
-        sepoliaContractAddress: '0x41809d151683c6e9d645b7b20636dbD3DEe71C6b',
+        sepoliaContractAddress: '0xABE34AF24BB9F00F19a8abafee12eEa4aDa5EEd8',
+        hardhatContractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
     }
 };
    

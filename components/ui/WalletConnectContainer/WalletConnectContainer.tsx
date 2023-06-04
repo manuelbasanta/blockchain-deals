@@ -34,7 +34,6 @@ const WalletConnectContainer = ({
             <div className='flex gap-5'>
               {connectors.map((connector) => (
                 <Button
-                  disabled={!connector.ready}
                   key={connector.id}
                   onClick={() => connect({ connector })}
                   label={connector.name}
