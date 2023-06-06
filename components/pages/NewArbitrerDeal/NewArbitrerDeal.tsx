@@ -31,8 +31,10 @@ const NewArbitrerDeal = () => {
     const { isLoading, isSuccess } = useWaitForTransaction({
         hash: data?.hash,
         onSettled(data, error) {
-            const parsedLogs = contractInterface.parseLog(data.logs[0]);
-            router.push(`/deal/${ Number(parsedLogs.args[1])}`);
+            if(!error) {
+                const parsedLogs = contractInterface.parseLog(data.logs[0]);
+                router.push(`/deal/${ Number(parsedLogs.args[1])}`);
+            }
         }
     })
 
@@ -119,7 +121,7 @@ const NewArbitrerDeal = () => {
             </div>
             <div className="border border-gray-300 rounded p-5">
                 <form className="flex flex-col gap-6 relative">
-                    <div className={`transition-all ease-in duration-1000 w-full h-full bg-white/50 backdrop-blur absolute rounded flex flex-col justify-center items-center outline outline-8 outline-green-300 ${isLoading ? 'opacity-100 z-2' : 'opacity-0 -z-10'}`}>
+                    <div className={`transition-all ease-in duration-500 w-full h-full bg-white/50 backdrop-blur absolute rounded flex flex-col justify-center items-center outline outline-8 outline-green-300 ${isLoading ? 'opacity-100 z-2' : 'opacity-0 -z-10'}`}>
                         <p className="font-bold text-center">Waiting for transaction. This may take a few seconds</p>
                         <Loader />
                     </div>
