@@ -1,10 +1,11 @@
 import { ethers } from "ethers";
-import abi from '..//contracts/BlockchainDeal.json';
+import { blockchainDealABI } from '../../contracts/blockchainDealABI.js';
 import moment from "moment";
+import { DEAL_ID_MAPPER, STATE_ID_MAPPER } from "./dealTypes";
 
 export const getDeal = async (id) => {
     const alchemyProvider = new ethers.AlchemyProvider("sepolia", process.env.ALCHEMY_SEPOLIA_ID);
-    const contract = new ethers.Contract(process.env.sepoliaContractAddress, abi, alchemyProvider);
+    const contract = new ethers.Contract(process.env.sepoliaContractAddress, blockchainDealABI, alchemyProvider);
     const deal = await contract.getArbitrerDealById(id);
 
     const formatted = Object.keys(deal).map(key => {
@@ -15,17 +16,6 @@ export const getDeal = async (id) => {
     })
 
     return formatDealResponse(formatted);
-}
-
-const DEAL_ID_MAPPER = {
-    0: 'Trustless Deal',
-    1: 'Arbitrer Deal',
-    2: 'Time Locked Deal'
-}
-
-const STATE_ID_MAPPER = {
-    0: 'Pending approval',
-    1: 'Completed',
 }
 
 const formatDealResponse = deal => {

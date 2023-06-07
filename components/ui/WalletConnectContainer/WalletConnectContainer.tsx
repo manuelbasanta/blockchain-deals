@@ -1,17 +1,19 @@
 "use client";
 
-import { useAccount, useConnect, useEnsName, useNetwork } from 'wagmi';
+import { useAccount, useConnect } from 'wagmi';
 import { useEffect, useState } from 'react';
 import Button from '../Button/Button';
+import Loader from '../Loader/Loader';
 
 const WalletConnectContainer = ({
     children,
+    message,
   }: {
     children: React.ReactNode;
+    message: string
   }) => {
     const [loading, setLoading] = useState(true);
     const { address, isConnected } = useAccount();
-    const { data: ensName } = useEnsName({ address })
     const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   
     useEffect(() => {
@@ -19,6 +21,11 @@ const WalletConnectContainer = ({
     }, []);
 
     const renderContent = () => {
+      if(loading) return (
+        <div className='h-full w-full flex items-center justify-center'>
+          <Loader />
+        </div>
+      )
       if(isConnected && !loading) {
         return (
           <>
@@ -27,9 +34,9 @@ const WalletConnectContainer = ({
         );
       } else {
         return (
-          <div className='flex flex-col gap-5 items-center font-light'>
-            <div className='text text-lg'>
-              Please connect your wallet in order to create a Deal.
+          <div className='flex flex-col gap-5 items-center font-bold'>
+            <div className="mt-4 text-red-600 rounded">
+              {message}
             </div>
             <div className='flex gap-5'>
               {connectors.map((connector) => (

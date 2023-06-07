@@ -1,4 +1,4 @@
-[
+export const blockchainDealABI = [
   {
     "inputs": [],
     "stateMutability": "payable",

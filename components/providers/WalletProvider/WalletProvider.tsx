@@ -1,6 +1,5 @@
 "use client";
 
-import WalletConnectContainer from '../../components/ui/WalletConnectContainer/WalletConnectContainer';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
@@ -8,7 +7,7 @@ import { hardhat, mainnet, sepolia } from 'wagmi/chains'
 import { alchemyProvider } from '@wagmi/core/providers/alchemy';
 import { publicProvider } from '@wagmi/core/providers/public';
 
-const NewDealLayout = ({
+const WalletProvider = ({
     children,
   }: {
     children: React.ReactNode;
@@ -39,14 +38,10 @@ const NewDealLayout = ({
     })
 
     return (
-      <>
         <WagmiConfig config={wagmiConfig}>
-          <WalletConnectContainer>
             {children}
-          </WalletConnectContainer>
         </WagmiConfig>
-      </>
     );
   }
 
-export default NewDealLayout;
+export default WalletProvider;
