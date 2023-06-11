@@ -6,7 +6,8 @@ export enum DEAL {
 
 export enum STATE {
     PENDING_APPROVAL = 'Pending approval',
-    COMPLETED = 'Completed'
+    COMPLETED = 'Completed',
+    VALUE_CLAIMED = 'Value claimed'
 }
 
 export const DEAL_ID_MAPPER = {
@@ -17,5 +18,6 @@ export const DEAL_ID_MAPPER = {
 
 export const STATE_ID_MAPPER = {
     0: STATE.PENDING_APPROVAL,
-    1: STATE.COMPLETED
+    1: STATE.COMPLETED,
+    2: STATE.VALUE_CLAIMED
 }

@@ -69,7 +69,20 @@ export const blockchainDealABI = [
     ],
     "name": "approveArbitrerDeal",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "claimArbitrerExpired",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -96,13 +109,7 @@ export const blockchainDealABI = [
       }
     ],
     "name": "createArbitrerDeal",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "dealId",
-        "type": "uint256"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "payable",
     "type": "function"
   },

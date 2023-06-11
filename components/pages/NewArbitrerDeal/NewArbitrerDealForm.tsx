@@ -18,7 +18,7 @@ const NewArbitrerDealForm = () => {
         abi: blockchainDealABI,
         functionName: 'createArbitrerDeal',
     });
-
+/* 
     useContractEvent({
         address: process.env.sepoliaContractAddress,
         abi: blockchainDealABI,
@@ -26,7 +26,7 @@ const NewArbitrerDealForm = () => {
         listener(log) {
           console.log(log)
         },
-      })
+      }) */
 
     const { isLoading, isSuccess } = useWaitForTransaction({
         hash: data?.hash,
