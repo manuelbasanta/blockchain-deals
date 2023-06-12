@@ -1,4 +1,5 @@
 import '../styles/globals.scss';
+import { Analytics } from '@vercel/analytics/react';
 import { inter } from "../fonts/fonts";
 import { Metadata } from 'next';
 import Header from '../components/ui/Header/Header';
@@ -21,6 +22,7 @@ export default function RootLayout({
           <Header />
           <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8">
             {children}
+            <Analytics />
           </main>
         </body>
       </html>
