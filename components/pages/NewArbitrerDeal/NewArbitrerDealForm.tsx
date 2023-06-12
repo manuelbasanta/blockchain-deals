@@ -28,7 +28,7 @@ const NewArbitrerDealForm = () => {
         },
       }) */
 
-    const { isLoading, isSuccess } = useWaitForTransaction({
+    const { isLoading } = useWaitForTransaction({
         hash: data?.hash,
         onSettled(data, error) {
             if(!error) {
