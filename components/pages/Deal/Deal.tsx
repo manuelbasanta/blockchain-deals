@@ -4,19 +4,21 @@ import WalletProvider from "../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../ui/WalletConnectContainer/WalletConnectContainer";
 import Actions from "../../ui/Actions/Actions";
 import DataItem from "./DataItem";
-import moment from "moment";
+import TimeDataItem from "./TimeDataItem";
 
 async function getData(id) {
     const data = await getDeal(id);
     return data;
 }
 
+const TIME_ITEMS = new Set(['Creation date','Expiration date'])
+
 const Deal = async ({ id }) => {
     const data = await getData(id);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
     const ethValue = ethers.formatEther(data['value']);
-    const expirationTime = moment.unix(Number(data['expirationTime'])).format('DD/MM/YYYY HH:mm:ss');
-    const creationTime = moment.unix(Number(data['creationTime'])).format('DD/MM/YYYY HH:mm:ss');
+/*     const expirationTime = moment.unix(Number(data['expirationTime'])).format('DD/MM/YYYY HH:mm:ss');
+    const creationTime = moment.unix(Number(data['creationTime'])).format('DD/MM/YYYY HH:mm:ss'); */
 
     const titleItem = [
         ['ID', data['id']],
@@ -25,8 +27,8 @@ const Deal = async ({ id }) => {
         ['Arbitrer', data['arbitrer']],
         ['Buyer', data['buyer']],
         ['Seller', data['seller']],
-        ['Creation date', creationTime],
-        ['Expiration date', expirationTime],
+        ['Creation date', data['creationTime']],
+        ['Expiration date', data['expirationTime']],
         ['State', data['state']],
     ]
 
@@ -42,7 +44,10 @@ const Deal = async ({ id }) => {
                 </WalletProvider>
             </div>
             <div className="border border-gray-300 rounded p-5 text-sm">
-                {titleItem.map((item, index) => <DataItem isExpired={data['isExpired']} key={item[1]} item={item} lastItem={index === titleItem.length - 1}/>)}
+                {titleItem.map((item, index) => {
+                    if(TIME_ITEMS.has(item[0])) return <TimeDataItem key={item[1]} item={item} lastItem={index === titleItem.length - 1}/>
+                    return <DataItem isExpired={data['isExpired']} key={item[1]} item={item} lastItem={index === titleItem.length - 1}/>
+                })}
             </div>
         </div>
     );
