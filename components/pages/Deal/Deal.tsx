@@ -4,7 +4,6 @@ import WalletProvider from "../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../ui/WalletConnectContainer/WalletConnectContainer";
 import Actions from "../../ui/Actions/Actions";
 import DataItem from "./DataItem";
-import moment from "moment";
 
 async function getData(id) {
     const data = await getDeal(id);
