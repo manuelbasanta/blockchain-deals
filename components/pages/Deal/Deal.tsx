@@ -4,6 +4,7 @@ import WalletProvider from "../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../ui/WalletConnectContainer/WalletConnectContainer";
 import Actions from "../../ui/Actions/Actions";
 import DataItem from "./DataItem";
+import moment from "moment";
 
 async function getData(id) {
     const data = await getDeal(id);
@@ -14,6 +15,9 @@ const Deal = async ({ id }) => {
     const data = await getData(id);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
     const ethValue = ethers.formatEther(data['value']);
+    const expirationTime = moment.unix(Number(data['expirationTime'])).format('DD/MM/YYYY HH:mm:ss');
+    const creationTime = moment.unix(Number(data['creationTime'])).format('DD/MM/YYYY HH:mm:ss');
+
     const titleItem = [
         ['ID', data['id']],
         ['Deal type:', data['dealType']],
@@ -21,8 +25,8 @@ const Deal = async ({ id }) => {
         ['Arbitrer', data['arbitrer']],
         ['Buyer', data['buyer']],
         ['Seller', data['seller']],
-        ['Creation date', data['creationTime']],
-        ['Expiration date', data['expirationTime']],
+        ['Creation date', expirationTime],
+        ['Expiration date', creationTime],
         ['State', data['state']],
     ]
 

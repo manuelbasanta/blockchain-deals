@@ -40,8 +40,8 @@ const formatDealResponse = deal => {
         buyer,
         seller,
         arbitrer,
-        expirationTime: moment.unix(Number(expirationTime)).format('DD/MM/YYYY HH:mm:ss'),
-        creationTime:  moment.unix(Number(creationTime)).format('DD/MM/YYYY HH:mm:ss'),
+        expirationTime: expirationTime,
+        creationTime:  creationTime,
         isExpired: moment(moment.unix(Number(expirationTime))).isBefore(moment()),
         value,
         state: STATE_ID_MAPPER[state]
