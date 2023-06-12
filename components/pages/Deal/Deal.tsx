@@ -17,8 +17,6 @@ const Deal = async ({ id }) => {
     const data = await getData(id);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
     const ethValue = ethers.formatEther(data['value']);
-/*     const expirationTime = moment.unix(Number(data['expirationTime'])).format('DD/MM/YYYY HH:mm:ss');
-    const creationTime = moment.unix(Number(data['creationTime'])).format('DD/MM/YYYY HH:mm:ss'); */
 
     const titleItem = [
         ['ID', data['id']],

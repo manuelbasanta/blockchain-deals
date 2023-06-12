@@ -60,9 +60,9 @@ const Profile = () => {
     const elements = items.results.map(result => {
       return (
         <Link key={result.args.id} href={`/deal/${result.args.id}`}>
-          <div className="text-sm rounded-t flex mb-2 p-2 borde border-b border-gray-400 hover:bg-green-200">
-            <div className="font-bold"><span className="font-light">ID:</span> {String(result.args.id)}</div>
-            <div className="ml-20 font-bold"><span className="font-light">Expires:</span> { moment.unix(Number(String(result.args.expirationTime))).format('DD/MM/YYYY HH:mm:ss')}</div>
+          <div className="text-sm rounded-t flex mb-2 p-2 borde border-b justify-between border-gray-400 hover:bg-green-200">
+            <div className="font-semibold">{String(result.args.id)}</div>
+            <div className="ml-20 font-semibold">{ moment.unix(Number(String(result.args.expirationTime))).format('DD/MM/YYYY HH:mm:ss')}</div>
           </div>
         </Link>
       )
@@ -74,14 +74,18 @@ const Profile = () => {
   return (
     <div className="w-full">
       <div className="text-4xl font-bold">Address Deals</div>
-      <div className="text-lg font-light mt-2 text-gray-600 mb-8">Select a role to see all Deals where you take part. Select a Deal to see more information and take action.</div>
-      <div className="flex">
-        <div className="flex flex-col gap-2 border-r border-gray-400 pr-5">
+      <div className="text-md font-light mt-2 text-gray-600 mb-8">Select a role to see all Deals where you take part. <span className="font-bold">Select a Deal to see more information and take action. </span></div>
+      <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col gap-2 md:border-r border-gray-400 pb-5 mb-5 md:pr-5">
           {roles.map(role => (
             <Button key={role} label={role.toLocaleUpperCase()} onClick={() => setSelectedRole(role)} type={selectedRole === role ? 'primary' : 'secondary'} />
           ))}
         </div>
-        <div className="ml-5">
+        <div className="md:ml-5 min-w-[40%]">
+          <div className="flex justify-between px-2 font-semibold text-sm mb-2">
+              <div>Id</div>
+              <div>Expires</div>
+          </div>
           {
             Object.keys(results).map(key => {
               return (

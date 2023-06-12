@@ -13,8 +13,8 @@ const WalletConnectContainer = ({
     message: string
   }) => {
     const [loading, setLoading] = useState(true);
-    const { address, isConnected } = useAccount();
-    const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+    const { isConnected } = useAccount();
+    const { connect, connectors, error } = useConnect();
   
     useEffect(() => {
       setLoading(false);
@@ -38,7 +38,7 @@ const WalletConnectContainer = ({
             <div className="mt-4 text-red-600 rounded">
               {message}
             </div>
-            <div className='flex gap-5'>
+            <div className='flex gap-5 flex-col md:flex-row'>
               {connectors.map((connector) => (
                 <Button
                   key={connector.id}
