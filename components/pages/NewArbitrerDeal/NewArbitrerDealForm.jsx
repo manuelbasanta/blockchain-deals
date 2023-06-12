@@ -38,7 +38,7 @@ const NewArbitrerDealForm = () => {
         }
     })
 
-    const handleFormSubmit = (event): void => {
+    const handleFormSubmit = (event) => {
         event.preventDefault();
         handleValueChange(transactionData.value, true);
         handleArbitrerChange(arbitrerData.value, true);
