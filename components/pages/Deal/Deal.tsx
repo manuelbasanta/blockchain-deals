@@ -25,8 +25,8 @@ const Deal = async ({ id }) => {
         ['Arbitrer', data['arbitrer']],
         ['Buyer', data['buyer']],
         ['Seller', data['seller']],
-        ['Creation date', expirationTime],
-        ['Expiration date', creationTime],
+        ['Creation date', creationTime],
+        ['Expiration date', expirationTime],
         ['State', data['state']],
     ]
 
