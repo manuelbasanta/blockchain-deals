@@ -9,16 +9,18 @@ const DataItem = ({item, lastItem, isExpired}) => {
         { 'text-red-500': data !== STATE.COMPLETED && data !== STATE.VALUE_CLAIMED && isExpired && lastItem},
         { 'text-blue-600': data === STATE.PENDING_APPROVAL && !isExpired },
     );
+
+    const stateExpired = data !== STATE.COMPLETED && data !== STATE.VALUE_CLAIMED && isExpired && lastItem;
     return (
         <div key={label} className={`flex items-center justify-between p-2 whitespace-nowrap ${ !lastItem ? 'border-b border-gray-300' : ''}`}>
             <div className="mr-10 font-medium  text-gray-900">
                 {label}
             </div>
             <div
-                title={data}
+                title={stateExpired ? 'Expired' : data}
                 className={stateClassName}
             >
-                {data !== STATE.COMPLETED && data !== STATE.VALUE_CLAIMED && isExpired && lastItem ? 'Expired' : data}
+                {stateExpired ? 'Expired' : data}
             </div>
         </div>
     )
