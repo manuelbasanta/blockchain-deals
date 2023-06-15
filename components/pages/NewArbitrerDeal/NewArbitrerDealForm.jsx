@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
 import Selector from "../../ui/Selector/Selector";
-import { blockchainDealABI } from '../../../contracts/blockchainDealABI';
+import { blockchainDealsABI } from '../../../contracts/blockchainDealsABI';
 import { EXPIRATION_VALUES, ONE_DAY } from "../NewDeal/expiration";
 import { useContractEvent, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useRouter } from 'next/navigation'
@@ -12,16 +12,16 @@ import Loader from "../../ui/Loader/Loader";
 
 const NewArbitrerDealForm = () => {
     const router = useRouter();
-    let contractInterface = new ethers.Interface(blockchainDealABI);
+    let contractInterface = new ethers.Interface(blockchainDealsABI);
     const { data, write } = useContractWrite({
-        address: process.env.sepoliaContractAddress,
-        abi: blockchainDealABI,
+        address: process.env.contractAddress,
+        abi: blockchainDealsABI,
         functionName: 'createArbitrerDeal',
     });
 /* 
     useContractEvent({
-        address: process.env.sepoliaContractAddress,
-        abi: blockchainDealABI,
+        address: process.env.contractAddress,
+        abi: blockchainDealsABI,
         eventName: 'DealCreated',
         listener(log) {
           console.log(log)
@@ -33,7 +33,7 @@ const NewArbitrerDealForm = () => {
         onSettled(data, error) {
             if(!error) {
                 const parsedLogs = contractInterface.parseLog(data.logs[0]);
-                router.push(`/deal/${Number(parsedLogs.args[1])}`);
+                router.push(`/deal/arbitrer/${Number(parsedLogs.args[1])}`);
             }
         }
     })
@@ -44,8 +44,8 @@ const NewArbitrerDealForm = () => {
         handleArbitrerChange(arbitrerData.value, true);
         handleBuyerChange(buyerData.value, true);
         if(
-            transactionData.isValid,
-            arbitrerData.isValid,
+            transactionData.isValid &&
+            arbitrerData.isValid &&
             buyerData.isValid
         ) {
             createDeal();
@@ -114,7 +114,7 @@ const NewArbitrerDealForm = () => {
 
     return (
         <div className="flex flex-col gap-6 relative">
-            <div className={`transition-all ease-in duration-500 w-full h-full bg-white/50 backdrop-blur absolute rounded flex flex-col justify-center items-center outline outline-8 outline-green-300 ${isLoading ? 'opacity-100 z-2' : 'opacity-0 -z-10'}`}>
+            <div className={`transition-all ease-in duration-500 w-full h-full bg-white/50 backdrop-blur absolute rounded flex flex-col justify-center items-center outline outline-8 outline-green-300 ${isLoading ? 'opacity-100 z-10' : 'opacity-0 -z-10'}`}>
                 <p className="font-bold text-center">Waiting for transaction. This may take a few seconds</p>
                 <Loader />
             </div>

@@ -1,13 +1,13 @@
 import { ethers } from "ethers";
-import { blockchainDealABI } from '../../contracts/blockchainDealABI.js';
-import moment from "moment";
+import { blockchainDealsABI } from '../../contracts/blockchainDealsABI.js';
 import { DEAL_ID_MAPPER, STATE_ID_MAPPER } from "./dealTypes";
 
-export const getDeal = async (id) => {
+export const getTrustlessDeal = async (id) => {
     const alchemyProvider = new ethers.AlchemyProvider("sepolia", process.env.ALCHEMY_SEPOLIA_ID);
-    const contract = new ethers.Contract(process.env.sepoliaContractAddress, blockchainDealABI, alchemyProvider);
+    const contract = new ethers.Contract(process.env.contractAddress, blockchainDealsABI, alchemyProvider);
+
     try {
-        const deal = await contract.getArbitrerDealById(id);
+        const deal = await contract.getTrustlessDealById(id);
         const formatted = Object.keys(deal).map(key => {
             if(typeof deal[key] === 'bigint') {
              return deal[key].toString();
@@ -27,22 +27,22 @@ const formatDealResponse = deal => {
         id,
         dealType,
         value,
-        arbitrer,
-        buyer,
-        seller,
+        beneficiaryDeposit,
+        creatorDeposit,
+        creator,
+        beneficiary,
         creationTime,
-        expirationTime,
         state
     ] = deal;
     return {
         dealType: DEAL_ID_MAPPER[dealType],
         id,
-        buyer,
-        seller,
-        arbitrer,
-        expirationTime: Number(expirationTime),
+        creator,
+        beneficiary,
+        beneficiaryDeposit,
+        creatorDeposit,
         creationTime:  Number(creationTime),
-        isExpired: moment(moment.unix(Number(expirationTime))).isBefore(moment()),
+        isExpired: false,
         value,
         state: STATE_ID_MAPPER[state]
     }

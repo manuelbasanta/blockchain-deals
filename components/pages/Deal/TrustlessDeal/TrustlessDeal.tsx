@@ -1,13 +1,13 @@
 import { ethers } from "ethers";
-import { getDeal } from "../../../services/getDeal/getDeal";
-import WalletProvider from "../../providers/WalletProvider/WalletProvider";
-import WalletConnectContainer from "../../ui/WalletConnectContainer/WalletConnectContainer";
-import Actions from "../../ui/Actions/Actions";
-import DataItem from "./DataItem";
-import TimeDataItem from "./TimeDataItem";
+import WalletProvider from "../../../providers/WalletProvider/WalletProvider";
+import WalletConnectContainer from "../../../ui/WalletConnectContainer/WalletConnectContainer";
+import Actions from "../../../ui/Actions/Actions";
+import DataItem from "../DataItem";
+import TimeDataItem from "../TimeDataItem";
+import { getTrustlessDeal } from "../../../../services/getDeal/getTrustlessDeal";
 
 async function getData(id) {
-    const data = await getDeal(id);
+    const data = await getTrustlessDeal(id);
     return data;
 }
 
@@ -17,16 +17,17 @@ const Deal = async ({ id }) => {
     const data = await getData(id);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
     const ethValue = ethers.formatEther(data['value']);
-
+    const creatorDeposit = ethers.formatEther(data['creatorDeposit']);
+    const beneficiaryDeposit = ethers.formatEther(data['beneficiaryDeposit']);
     const titleItem = [
         ['ID', data['id']],
         ['Deal type:', data['dealType']],
         ['Value', `${ethValue} ETH`],
-        ['Arbitrer', data['arbitrer']],
-        ['Buyer', data['buyer']],
-        ['Seller', data['seller']],
+        ['Creator', data['creator']],
+        ['Beneficiary', data['beneficiary']],
+        ['Beneficiary\'s deposit', `${beneficiaryDeposit} ETH`],
+        ['Creator\'s deposit', `${creatorDeposit} ETH`],
         ['Creation date', data['creationTime']],
-        ['Expiration date', data['expirationTime']],
         ['State', data['state']],
     ]
 
@@ -37,7 +38,7 @@ const Deal = async ({ id }) => {
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
-                        <Actions isExpired={data['isExpired']} dealId={data['id']} arbitrer={data['arbitrer']} buyer={data['buyer']} seller={data['seller']} state={data['state']}/>
+                        <Actions isExpired={data['isExpired']} dealId={data['id']} arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} state={data['state']} beneficiaryDeposit={data['beneficiaryDeposit']}/>
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>
