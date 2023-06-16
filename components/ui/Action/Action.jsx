@@ -27,8 +27,8 @@ const Action = ({
     const { address } = useAccount();
     const router = useRouter();
     const action = selectAction({actions, beneficiary, creator, arbitrer, address});
-    const { name, type, label, args, buttonLabel } = action;
-
+    const { name, type, label, args, buttonLabel, warning, info } = action;
+    console.log(info)
     const { data, write } = useContractWrite({
         address: process.env.contractAddress,
         abi: blockchainDealsABI,
@@ -47,9 +47,10 @@ const Action = ({
 
     if(type === 'empty') {
         return (
-            <div className="break-words mt-2">
-                <div className="mt-4 mb-4 text-gray-900 rounded text-sm max-w-sm break-words">Address: <span className="font-bold">{address}</span></div>
-                <div className="mt-4 mb-4 text-gray-900 rounded text-sm break-words">{label}</div>
+            <div className="break-words mt-2 max-w-sm text-sm">
+                <div className="mt-4 mb-4 text-gray-900 max-w-sm break-words">Address: <span className="font-bold">{address}</span></div>
+                <div className="mt-4 mb-4 text-gray-900 break-words text-base">{label}</div>
+                {info && <div className="w-fit font-semibold text-blue-600 px-2 py-0 border-l-2 border-dashed border-blue-600">{info}</div>}
             </div>
         );
     }
@@ -57,8 +58,10 @@ const Action = ({
 
     return (
         <div className="flex gap-3 flex-col max-w-sm text-sm">
-            <div className="mt-4 mb-4 text-gray-900 rounded text-sm break-words">Available actions for <span className="font-bold">{address}</span>:</div>
-            <div>{label}</div>
+            <div className="mt-4 mb-4 text-gray-900 rounded break-words">Available actions for <span className="font-bold">{address}</span>:</div>
+            <div className="text-base">{label}</div>
+            {warning && <div className="font-semibold text-red-600 px-2 py-1 border-l-2 border-dashed border-red-600">{warning}</div>}
+            {info && <div className="font-semibold text-blue-600">{info}</div>}
             <Button type="primary" label={buttonLabel} loading={isLoading} onClick={() => write(args)}/>
         </div>
     )

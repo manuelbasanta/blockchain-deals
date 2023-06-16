@@ -32,7 +32,7 @@ const Deal = async ({ id }) => {
     ]
 
     return (
-        <div className="w-full flex justify-between gap-10 flex-col md:flex-row text-md">
+        <div className="w-full flex justify-between gap-10 flex-col md:flex-row text-base">
             <div>
                 <div className="text-4xl font-bold">Deal #{data['id']} details</div>
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>

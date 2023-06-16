@@ -22,7 +22,7 @@ const getCreatorAction = ({actions, state, isExpired}) => {
             return actions.noActionsAvailableCancelled;
         case STATE.PENDING_APPROVAL:
             if(isExpired) return actions.claimArbitrerExpired;
-            return actions.noActionsAvailableForAddress;
+            return actions.noActionsPendingApproval;
         default:
             return actions.noActionsAvailableForAddress;
     }
@@ -48,7 +48,7 @@ const getBeneficiaryAction = ({actions, state, isExpired}) => {
             return actions.confirmBeneficiary;
         case STATE.PENDING_APPROVAL:
             if(isExpired) return actions.noActionsExpired;
-            return actions.noActionsAvailableForAddress;
+            return actions.noActionsPendingApproval;
         case STATE.CONFIRMED:
             return actions.noActionsConfirmed; 
         case STATE.COMPLETED:
@@ -85,6 +85,7 @@ const createActions = ({id, beneficiaryDeposit}) => ({
         type: 'action',
         name: 'confirmBeneficiary',
         label: 'The creator of the Deal has submited the value and his or her deposit, now is your turn to confirm it. Take a good look at the Deal\'s information before submitting your deposit and confirming the Deal.',
+        warning: 'The creator of the Deal can cancel it for as long as you don\'t confirm it, after that he won\'t be able to.',
         buttonLabel: 'Confirm deposit',
         args: {
             args: [id],
@@ -136,6 +137,12 @@ const createActions = ({id, beneficiaryDeposit}) => ({
     },
     noActionsConfirmed: {
         label: 'You have confirmed the Deal and now it has to be completed by the creator once he or she recieves his or her goods/service.',
+        type: 'empty',
+        name: 'noActionsExpired'
+    },
+    noActionsPendingApproval: {
+        label: 'You have to wait for the arbitrer to approve this Deal.',
+        info: 'Let the arbitrer know the Deal is ready for approval!',
         type: 'empty',
         name: 'noActionsExpired'
     }
