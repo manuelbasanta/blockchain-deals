@@ -61,7 +61,7 @@ const Profile = () => {
     const elements = items.results.map(result => {
       const {id, dealType, value} = result.args;
       const ethValue = ethers.formatEther(value);
-      console.log(items)
+
       return (
         <Link key={`${dealType}-${id}`} href={`/deal/${dealType}/${id}`}>
           <div className="text-sm rounded-t flex mb-2 p-2 borde border-b justify-between border-gray-400 hover:bg-green-200">

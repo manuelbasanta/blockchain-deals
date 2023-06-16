@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { blockchainDealsABI } from '../../contracts/blockchainDealsABI.js';
 import { DEAL_ID_MAPPER, STATE_ID_MAPPER } from "./dealTypes";
+import { getAvailableActions } from "./getAvailableActions";
 
 export const getTrustlessDeal = async (id) => {
     const alchemyProvider = new ethers.AlchemyProvider("sepolia", process.env.ALCHEMY_SEPOLIA_ID);
@@ -44,6 +45,7 @@ const formatDealResponse = deal => {
         creationTime:  Number(creationTime),
         isExpired: false,
         value,
+        actions: getAvailableActions(STATE_ID_MAPPER[state], id, beneficiaryDeposit, false),
         state: STATE_ID_MAPPER[state]
     }
 }

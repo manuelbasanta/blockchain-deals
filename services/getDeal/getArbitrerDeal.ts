@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { blockchainDealsABI } from '../../contracts/blockchainDealsABI.js';
 import moment from "moment";
 import { DEAL_ID_MAPPER, STATE_ID_MAPPER } from "./dealTypes";
+import { getAvailableActions } from "./getAvailableActions";
 
 export const getArbitrerDeal = async (id) => {
     const alchemyProvider = new ethers.AlchemyProvider("sepolia", process.env.ALCHEMY_SEPOLIA_ID);
@@ -43,6 +44,7 @@ const formatDealResponse = deal => {
         expirationTime: Number(expirationTime),
         creationTime:  Number(creationTime),
         isExpired: moment(moment.unix(Number(expirationTime))).isBefore(moment()),
+        actions: getAvailableActions(STATE_ID_MAPPER[state], id, null, false),
         value,
         state: STATE_ID_MAPPER[state]
     }

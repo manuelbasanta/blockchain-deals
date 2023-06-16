@@ -2,9 +2,9 @@ import { ethers } from "ethers";
 import { getArbitrerDeal } from "../../../../services/getDeal/getArbitrerDeal";
 import WalletProvider from "../../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../../ui/WalletConnectContainer/WalletConnectContainer";
-import Actions from "../../../ui/Actions/Actions";
 import DataItem from "../DataItem";
 import TimeDataItem from "../TimeDataItem";
+import Action from "../../../ui/Action/Action";
 
 async function getData(id) {
     const data = await getArbitrerDeal(id);
@@ -30,8 +30,6 @@ const Deal = async ({ id }) => {
         ['State', data['state']],
     ]
 
-    console.log(data['value'])
-
     return (
         <div className="w-full flex justify-between gap-10 flex-col md:flex-row text-md">
             <div>
@@ -39,7 +37,7 @@ const Deal = async ({ id }) => {
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
-                        <Actions isExpired={data['isExpired']} dealId={data['id']} arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} state={data['state']}/>
+                        <Action arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} actions={data['actions']}/>
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>

@@ -1,10 +1,10 @@
 import { ethers } from "ethers";
 import WalletProvider from "../../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../../ui/WalletConnectContainer/WalletConnectContainer";
-import Actions from "../../../ui/Actions/Actions";
 import DataItem from "../DataItem";
 import TimeDataItem from "../TimeDataItem";
 import { getTrustlessDeal } from "../../../../services/getDeal/getTrustlessDeal";
+import Action from "../../../ui/Action/Action";
 
 async function getData(id) {
     const data = await getTrustlessDeal(id);
@@ -38,7 +38,7 @@ const Deal = async ({ id }) => {
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
-                        <Actions isExpired={data['isExpired']} dealId={data['id']} arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} state={data['state']} beneficiaryDeposit={data['beneficiaryDeposit']}/>
+                        <Action arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} actions={data['actions']} />
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>
