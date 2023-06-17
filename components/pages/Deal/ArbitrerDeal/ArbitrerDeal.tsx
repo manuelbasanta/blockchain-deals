@@ -23,7 +23,7 @@ const Deal = async ({ id }) => {
         ['Deal type:', data['dealType']],
         ['Value', `${ethValue} ETH`],
         ['Arbitrer', data['arbitrer']],
-        ['Beneficiary', data['seller']],
+        ['Seller', data['seller']],
         ['Creator', data['buyer']],
         ['Creation date', data['creationTime']],
         ['Expiration date', data['expirationTime']],
