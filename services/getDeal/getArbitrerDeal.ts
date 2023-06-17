@@ -27,24 +27,28 @@ const formatDealResponse = deal => {
     const [
         id,
         dealType,
-        value,
         arbitrer,
+        buyer,
+        seller,
         creator,
-        beneficiary,
+        value,
         creationTime,
         expirationTime,
         state
     ] = deal;
+
+    const isExpired = moment(moment.unix(Number(expirationTime))).isBefore(moment());
     return {
         dealType: DEAL_ID_MAPPER[dealType],
         id,
+        buyer,
         creator,
-        beneficiary,
+        seller,
         arbitrer,
         expirationTime: Number(expirationTime),
         creationTime:  Number(creationTime),
-        isExpired: moment(moment.unix(Number(expirationTime))).isBefore(moment()),
-        actions: getAvailableActions(STATE_ID_MAPPER[state], id, null, false),
+        isExpired,
+        actions: getAvailableActions({ state: STATE_ID_MAPPER[state], id, sellerDeposit: null, buyerDeposit:null, isExpired, value }),
         value,
         state: STATE_ID_MAPPER[state]
     }

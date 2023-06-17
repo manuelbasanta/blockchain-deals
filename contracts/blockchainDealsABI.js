@@ -22,13 +22,13 @@ export const blockchainDealsABI = [
       {
         "indexed": true,
         "internalType": "address",
-        "name": "creator",
+        "name": "buyer",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "beneficiary",
+        "name": "seller",
         "type": "address"
       },
       {
@@ -68,6 +68,45 @@ export const blockchainDealsABI = [
       }
     ],
     "name": "approveArbitrerDeal",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyerCancelTrustlessDeal",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "buyerConfirmTrustless",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "cancelArbitrerDealAsSeller",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -132,7 +171,7 @@ export const blockchainDealsABI = [
         "type": "uint256"
       }
     ],
-    "name": "confirmBeneficiary",
+    "name": "confirmArbitrerDealByBuyer",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -151,7 +190,7 @@ export const blockchainDealsABI = [
       },
       {
         "internalType": "address",
-        "name": "_beneficiary",
+        "name": "_seller",
         "type": "address"
       },
       {
@@ -160,7 +199,7 @@ export const blockchainDealsABI = [
         "type": "uint256"
       }
     ],
-    "name": "createArbitrerDeal",
+    "name": "createArbitrerDealAsBuyer",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -174,21 +213,77 @@ export const blockchainDealsABI = [
       },
       {
         "internalType": "address",
-        "name": "_beneficiary",
+        "name": "_arbitrer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_buyer",
         "type": "address"
       },
       {
         "internalType": "uint256",
-        "name": "_beneficiaryDeposit",
+        "name": "_expirationTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "createArbitrerDealAsSeller",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_value",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_seller",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_sellerDeposit",
         "type": "uint256"
       },
       {
         "internalType": "uint256",
-        "name": "_creatorDeposit",
+        "name": "_buyerDeposit",
         "type": "uint256"
       }
     ],
-    "name": "createTrustlessDeal",
+    "name": "createTrustlessDealAsBuyer",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_value",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
+        "name": "_buyer",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_sellerDeposit",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_buyerDeposit",
+        "type": "uint256"
+      }
+    ],
+    "name": "createTrustlessDealAsSeller",
     "outputs": [],
     "stateMutability": "payable",
     "type": "function"
@@ -224,14 +319,9 @@ export const blockchainDealsABI = [
             "type": "uint256"
           },
           {
-            "internalType": "enum BlockchainDeals.DealType",
+            "internalType": "enum BlockchainDealsV2.DealType",
             "name": "dealType",
             "type": "uint8"
-          },
-          {
-            "internalType": "uint256",
-            "name": "value",
-            "type": "uint256"
           },
           {
             "internalType": "address",
@@ -240,13 +330,23 @@ export const blockchainDealsABI = [
           },
           {
             "internalType": "address",
-            "name": "creator",
+            "name": "buyer",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "beneficiary",
+            "name": "seller",
             "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "creator",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
           },
           {
             "internalType": "uint256",
@@ -259,12 +359,12 @@ export const blockchainDealsABI = [
             "type": "uint256"
           },
           {
-            "internalType": "enum BlockchainDeals.State",
+            "internalType": "enum BlockchainDealsV2.State",
             "name": "state",
             "type": "uint8"
           }
         ],
-        "internalType": "struct BlockchainDeals.ArbitrerDeal",
+        "internalType": "struct BlockchainDealsV2.ArbitrerDeal",
         "name": "",
         "type": "tuple"
       }
@@ -290,9 +390,24 @@ export const blockchainDealsABI = [
             "type": "uint256"
           },
           {
-            "internalType": "enum BlockchainDeals.DealType",
+            "internalType": "enum BlockchainDealsV2.DealType",
             "name": "dealType",
             "type": "uint8"
+          },
+          {
+            "internalType": "address",
+            "name": "buyer",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "seller",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "creator",
+            "type": "string"
           },
           {
             "internalType": "uint256",
@@ -301,23 +416,13 @@ export const blockchainDealsABI = [
           },
           {
             "internalType": "uint256",
-            "name": "beneficiaryDeposit",
+            "name": "buyerDeposit",
             "type": "uint256"
           },
           {
             "internalType": "uint256",
-            "name": "creatorDeposit",
+            "name": "sellerDeposit",
             "type": "uint256"
-          },
-          {
-            "internalType": "address",
-            "name": "creator",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "beneficiary",
-            "type": "address"
           },
           {
             "internalType": "uint256",
@@ -325,12 +430,12 @@ export const blockchainDealsABI = [
             "type": "uint256"
           },
           {
-            "internalType": "enum BlockchainDeals.State",
+            "internalType": "enum BlockchainDealsV2.State",
             "name": "state",
             "type": "uint8"
           }
         ],
-        "internalType": "struct BlockchainDeals.TrustlessDeal",
+        "internalType": "struct BlockchainDealsV2.TrustlessDeal",
         "name": "",
         "type": "tuple"
       }
@@ -359,9 +464,22 @@ export const blockchainDealsABI = [
         "type": "uint256"
       }
     ],
-    "name": "unilateralCancelTrustlessDeal",
+    "name": "sellerCancelTrustlessDeal",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_id",
+        "type": "uint256"
+      }
+    ],
+    "name": "sellerConfirmTrustless",
+    "outputs": [],
+    "stateMutability": "payable",
     "type": "function"
   },
   {

@@ -17,16 +17,16 @@ const Deal = async ({ id }) => {
     const data = await getData(id);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
     const ethValue = ethers.formatEther(data['value']);
-    const creatorDeposit = ethers.formatEther(data['creatorDeposit']);
-    const beneficiaryDeposit = ethers.formatEther(data['beneficiaryDeposit']);
+    const buyerDeposit = ethers.formatEther(data['buyerDeposit']);
+    const sellerDeposit = ethers.formatEther(data['sellerDeposit']);
     const titleItem = [
         ['ID', data['id']],
         ['Deal type:', data['dealType']],
         ['Value', `${ethValue} ETH`],
-        ['Creator', data['creator']],
-        ['Beneficiary', data['beneficiary']],
-        ['Beneficiary\'s deposit', `${beneficiaryDeposit} ETH`],
-        ['Creator\'s deposit', `${creatorDeposit} ETH`],
+        ['Buyer', data['buyer']],
+        ['Seller', data['seller']],
+        ['Seller\'s deposit', `${sellerDeposit} ETH`],
+        ['Buyers\'s deposit', `${buyerDeposit} ETH`],
         ['Creation date', data['creationTime']],
         ['State', data['state']],
     ]
@@ -38,7 +38,7 @@ const Deal = async ({ id }) => {
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
-                        <Action arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} actions={data['actions']} />
+                        <Action arbitrer={data['arbitrer']} seller={data['seller']} buyer={data['buyer']} actions={data['actions']} />
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>

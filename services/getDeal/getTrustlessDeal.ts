@@ -27,25 +27,27 @@ const formatDealResponse = deal => {
     const [
         id,
         dealType,
-        value,
-        beneficiaryDeposit,
-        creatorDeposit,
+        buyer,
+        seller,
         creator,
-        beneficiary,
+        value,
+        buyerDeposit,
+        sellerDeposit,
         creationTime,
         state
     ] = deal;
     return {
         dealType: DEAL_ID_MAPPER[dealType],
         id,
+        buyer,
         creator,
-        beneficiary,
-        beneficiaryDeposit,
-        creatorDeposit,
+        seller,
+        sellerDeposit,
+        buyerDeposit,
         creationTime:  Number(creationTime),
         isExpired: false,
         value,
-        actions: getAvailableActions(STATE_ID_MAPPER[state], id, beneficiaryDeposit, false),
+        actions: getAvailableActions({state: STATE_ID_MAPPER[state], id, sellerDeposit, isExpired: false, value, buyerDeposit}),
         state: STATE_ID_MAPPER[state]
     }
 }

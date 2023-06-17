@@ -1,8 +1,8 @@
 import WalletProvider from "../../providers/WalletProvider/WalletProvider";
 import WalletConnectContainer from "../../ui/WalletConnectContainer/WalletConnectContainer";
-import NewArbitrerDealForm from "./NewArbitrerDealForm";
+import NewBuyerArbitrerDealForm from "./NewBuyerArbitrerDealForm";
 
-const NewArbitrerDeal = () => (
+const NewBuyerArbitrerDeal = () => (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 min-w-full">
         <div>
             <div className="text-4xl font-bold">The Arbitrer Deal</div>
@@ -12,11 +12,11 @@ const NewArbitrerDeal = () => (
         <div className="border border-gray-300 rounded p-5">
             <WalletProvider>
                 <WalletConnectContainer message='Please connect your wallet in order to create a Deal.'>
-                    <NewArbitrerDealForm />
+                    <NewBuyerArbitrerDealForm />
                 </WalletConnectContainer>
             </WalletProvider>
         </div>
     </div>
 );
 
-export default NewArbitrerDeal;
+export default NewBuyerArbitrerDeal;

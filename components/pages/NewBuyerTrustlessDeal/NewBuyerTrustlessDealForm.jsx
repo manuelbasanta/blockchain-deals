@@ -4,19 +4,23 @@ import { useState } from "react";
 import { ethers } from "ethers";
 import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
-import Selector from "../../ui/Selector/Selector";
 import { blockchainDealsABI } from '../../../contracts/blockchainDealsABI';
-import { useContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useRouter } from 'next/navigation'
 import Loader from "../../ui/Loader/Loader";
 
-const NewTrustlessDealForm = () => {
+const NewBuyerTrustlessDealForm = () => {
     const router = useRouter();
+    const { address } = useAccount();
+    const [error, setError] = useState(null);
     let contractInterface = new ethers.Interface(blockchainDealsABI);
-    const { data, write } = useContractWrite({
+    const { data, write, isLoading: isLoadingWrite, isSuccess } = useContractWrite({
         address: process.env.contractAddress,
         abi: blockchainDealsABI,
-        functionName: 'createTrustlessDeal',
+        functionName: 'createTrustlessDealAsBuyer',
+        onError(error) {
+            setError(error.cause.shortMessage);
+        },      
     });
 
     const { isLoading } = useWaitForTransaction({
@@ -32,15 +36,15 @@ const NewTrustlessDealForm = () => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
         handleValueChange(transactionData.value, true);
-        handleBeneficiearyChange(beneficiaryData.value, true);
-        handleBeneficiaryDepositChange(beneficiaryDepositData.value, true);
+        handleBeneficiearyChange(sellerData.value, true);
+        handleSellerDepositChange(sellerDepositData.value, true);
         handleCreatorDepositChange(creatorDepositData.value, true);
         if(
             transactionData.isValid &&
-            beneficiaryData.isValid &&
-            beneficiaryDepositData.isValid &&
+            sellerData.isValid &&
+            sellerDepositData.isValid &&
             creatorDepositData.isValid &&
-            beneficiaryData.isValid
+            sellerData.isValid
         ) {
             createDeal();
         }
@@ -48,15 +52,15 @@ const NewTrustlessDealForm = () => {
 
     const createDeal = async () => {
         const creatorDepositValue = ethers.parseUnits(creatorDepositData.value, 'ether');
-        const beneficiaryDepositValue = ethers.parseUnits(beneficiaryDepositData.value, 'ether');
+        const sellerDepositValue = ethers.parseUnits(sellerDepositData.value, 'ether');
         const value =  ethers.parseUnits(transactionData.value, 'ether');
         try {
             write({
-                args: [value, beneficiaryData.value, beneficiaryDepositValue, creatorDepositValue],
+                args: [value, sellerData.value, sellerDepositValue, creatorDepositValue],
                 value: value + creatorDepositValue,
             })
         } catch (error) {
-                console.log(error);
+            console.log(error);
         }
     }
 
@@ -75,15 +79,15 @@ const NewTrustlessDealForm = () => {
         });
     }
 
-    // Beneficiary's deposit
-    const [beneficiaryDepositData, setBeneficiaryDepositData] = useState({
+    // Seller's deposit
+    const [sellerDepositData, setSellerDepositData] = useState({
         value: '',
         touched: false,
         isValid: false
     });
 
-    const handleBeneficiaryDepositChange = (value, touched) => {
-        setBeneficiaryDepositData({
+    const handleSellerDepositChange = (value, touched) => {
+        setSellerDepositData({
             value, 
             touched,
             isValid: Number(value) > 0
@@ -105,18 +109,18 @@ const NewTrustlessDealForm = () => {
         });
     }
 
-    // Beneficiary
-    const [beneficiaryData, setBeneficiaryData] = useState({
+    // Seller
+    const [sellerData, setSellerData] = useState({
         value: '',
         touched: false,
         isValid: false
     });
 
     const handleBeneficiearyChange = (value, touched) => {
-        setBeneficiaryData({
+        setSellerData({
             value, 
             touched,
-            isValid: ethers.isAddress(value)
+            isValid: ethers.isAddress(value) && value !== address
         });
     }
 
@@ -127,14 +131,15 @@ const NewTrustlessDealForm = () => {
                 <Loader />
             </div>
             <Input label="Value" data={transactionData} validationText="The value should be grater than 0" handleChange={handleValueChange} placeholder="Value of the transaction in ETH" type="number" />
-            <Input label="Beneficiary" data={beneficiaryData} validationText="Invalid Etheteum address" handleChange={handleBeneficiearyChange} placeholder="Beneficiary's Ethereum address" type="text" />
-            <Input label="Beneficiary's deposit" data={beneficiaryDepositData} validationText="The value should be grater than 0" handleChange={handleBeneficiaryDepositChange} placeholder="The beneficiary's deposit in ETH" type="number" info="The  beneficiary's deposit should be significant so that he/she provides the service or goods. We recommend setting it to 30% of the value." />
-            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit should be grater than the value" handleChange={handleCreatorDepositChange} placeholder="Your deposit in ETH" type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 ETH the deposit should be .165 ETH). This way the beneficiary can rest asured you will keep your part of the deal." />
+            <Input label="Seller" data={sellerData} validationText="Invalid Etheteum address" handleChange={handleBeneficiearyChange} placeholder="Seller's Ethereum address" type="text" />
+            <Input label="Seller's deposit" data={sellerDepositData} validationText="The value should be grater than 0" handleChange={handleSellerDepositChange} placeholder="The seller's deposit in ETH" type="number" info="The  seller's deposit should be significant so that he/she provides the service or goods. We recommend setting it to 30% of the value." />
+            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit has to be grater than the value." handleChange={handleCreatorDepositChange} placeholder="Your deposit in ETH" type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 ETH the deposit should be .165 ETH). This way the seller can rest asured you will keep your part of the deal." />
             <div className="flex">
                 <Button label="Create Trustless Deal" onClick={handleFormSubmit} type="primary" />
             </div>
+            {(error && !isLoadingWrite && !isSuccess) && <div className="text-red-700 rounded p-2 bg-red-100 font-semibold text-sm border border-red-700">{error}</div>}
         </div>
     );
 }
 
-export default NewTrustlessDealForm;
+export default NewBuyerTrustlessDealForm;

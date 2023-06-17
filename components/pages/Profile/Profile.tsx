@@ -15,13 +15,13 @@ const Profile = () => {
   const { chain } = useNetwork();
   const publicClient = useContext(PublicClientContext);
   const publicClientInstance = publicClient({chainId: chain.id});
-  const [selectedRole, setSelectedRole] = useState('creator');
+  const [selectedRole, setSelectedRole] = useState('buyer');
   const [results, setResults] = useState({
-    creator: {
+    buyer: {
       loaded: false,
       data: []
     },
-    beneficiary: {
+    seller: {
       loaded: false,
       data: []
     },
@@ -31,13 +31,15 @@ const Profile = () => {
     },
   });
   
-  const roles = ['creator', 'beneficiary', 'arbitrer'];
+  const roles = ['buyer', 'seller', 'arbitrer'];
+
+  // TODO: se ejecuta dos veces getLogs en el primer render
 
   useEffect(() => {
     const getLogs = () => {
       publicClientInstance.getLogs({
         address: process.env.contractAddress,
-        event: parseAbiItem('event DealCreated(string dealType, uint256 id, address indexed creator, address indexed beneficiary, address indexed arbitrer, uint256 expirationTime, uint256 value, string state)'),
+        event: parseAbiItem('event DealCreated(string dealType, uint256 id, address indexed buyer, address indexed seller, address indexed arbitrer, uint256 expirationTime, uint256 value, string state)'),
         args: {
             [selectedRole]: address,
         },

@@ -23,8 +23,8 @@ const Deal = async ({ id }) => {
         ['Deal type:', data['dealType']],
         ['Value', `${ethValue} ETH`],
         ['Arbitrer', data['arbitrer']],
-        ['Beneficiary', data['beneficiary']],
-        ['Creator', data['creator']],
+        ['Beneficiary', data['seller']],
+        ['Creator', data['buyer']],
         ['Creation date', data['creationTime']],
         ['Expiration date', data['expirationTime']],
         ['State', data['state']],
@@ -37,7 +37,7 @@ const Deal = async ({ id }) => {
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
-                        <Action arbitrer={data['arbitrer']} beneficiary={data['beneficiary']} creator={data['creator']} actions={data['actions']}/>
+                        <Action arbitrer={data['arbitrer']} seller={data['seller']} buyer={data['buyer']} actions={data['actions']}/>
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>
