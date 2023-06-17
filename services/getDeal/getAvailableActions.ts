@@ -10,17 +10,6 @@ export const getAvailableActions = ({state, id, sellerDeposit, buyerDeposit, isE
     }
 }
 
-export const rrr = {
-    0: STATE.PENDING_ARBITRER_APPROVAL,
-    1: STATE.ARBITRER_PENDING_BUYER_CONFIRMATION,
-    2: STATE.VALUE_CLAIMED_EXPIRED,
-    3: STATE.PENDING_SELLER_DEPOSIT,
-    4: STATE.PENDING_BUYER_DEPOSIT,
-    5: STATE.CONFIRMED,
-    6: STATE.CANCELLED_BY_CREATOR,
-    7: STATE.COMPLETED
-}
-
 const getBuyerAction = ({actions, state, isExpired}) => {
     switch(state) {
         case STATE.PENDING_SELLER_DEPOSIT:
@@ -122,7 +111,7 @@ const createActions = ({id, sellerDeposit, value, buyerDeposit}) => ({
     completeTrustlessDeal: {
         type: 'action',
         name: 'completeTrustlessDeal',
-        label: 'The Deal is confirmed, all deposits and value are ready. If you have recieved the goods/service this is the moment to complete the Deal.',
+        label: 'The Deal is confirmed, all deposits and value are ready. If you have received the goods/service this is the moment to complete the Deal.',
         info: 'You will get your deposit back and the seller will get his/her deposit plus the value of the Deal.',
         buttonLabel: 'Complete Deal',
         args: {
@@ -133,6 +122,7 @@ const createActions = ({id, sellerDeposit, value, buyerDeposit}) => ({
         type: 'action',
         name: 'buyerCancelTrustlessDeal',
         label: 'The seller hasn\'t made the deposit yet, the Deal is not confirmed. You can cancel it before the seller\'s confirmation.',
+        info: 'Copy the Deal link and send it to the seller so that he/she can confirm it!',
         buttonLabel: 'Cancel Deal',
         args: {
             args: [id]
@@ -142,6 +132,7 @@ const createActions = ({id, sellerDeposit, value, buyerDeposit}) => ({
         type: 'action',
         name: 'sellerCancelTrustlessDeal',
         label: 'The buyer hasn\'t made the deposit yet, the Deal is not confirmed. You can cancel it before the buyers\'s confirmation.',
+        info: 'Copy the Deal link and send it to the buyer so that he/she can confirm it!',
         buttonLabel: 'Cancel Deal',
         args: {
             args: [id]
@@ -160,11 +151,12 @@ const createActions = ({id, sellerDeposit, value, buyerDeposit}) => ({
     buyerConfirmTrustless: {
         type: 'action',
         name: 'buyerConfirmTrustless',
-        label: 'You can now confirm the Deal by paying the value and the your (buyers) deposit',
+        label: 'You can now confirm the Deal by paying the value and the your (buyer\'s) deposit.',
+        warning: 'Once you confirm the Deal it can\'t be cancelled. Double check the Deal details.',
         buttonLabel: 'Confirm Deal',
         args: {
             args: [id],
-            value: value + buyerDeposit
+            value: String(Number(value) + Number(buyerDeposit))
         }
     },
     cancelArbitrerDealAsSeller: {
@@ -202,13 +194,14 @@ const createActions = ({id, sellerDeposit, value, buyerDeposit}) => ({
         name: 'noActionsExpired'
     },
     noActionsConfirmed: {
-        label: 'You have confirmed the Deal and now it has to be completed by the buyer once he or she recieves the goods/service.',
+        label: 'You have confirmed the Deal and now it has to be completed by the buyer once he or she receives the goods/service.',
+        info: 'Provide the agreed upon goods or services to the buyer so that he or she can Complete the Deal and you can get the value + the deposit.',
         type: 'empty',
         name: 'noActionsConfirmed'
     },
     noActionsPendingApproval: {
         label: 'You have to wait for the arbitrer to approve this Deal.',
-        info: 'Let the arbitrer know the Deal is ready for approval!',
+        info: 'Let the arbitrer know the Deal is ready for approval! You can copy the linkand send it.',
         type: 'empty',
         name: 'noActionsPendingApproval'
     }

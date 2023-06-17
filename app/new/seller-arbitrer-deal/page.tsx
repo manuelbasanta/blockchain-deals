@@ -1,11 +1,11 @@
 import { Metadata } from "next";
-import NewBuyerArbitrerDeal from "../../../components/pages/NewBuyerArbitrerDeal/NewBuyerArbitrerDeal";
+import NewSellerArbitrerDeal from "../../../components/pages/NewSellerArbitrerDeal/NewSellerArbitrerDeal";
 
 export const metadata: Metadata = {
-    title: 'New arbitrer Deal as Buyer',
+    title: 'New arbitrer Deal as Seller',
     description: 'Create a new escrow deal with an arbitrer, backed by the Ethereum blockchain',
 };
 
 export default function Page() {
-    return <NewBuyerArbitrerDeal />;
+    return <NewSellerArbitrerDeal />;
 }

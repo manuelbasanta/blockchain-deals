@@ -8,7 +8,7 @@ const DataItem = ({item, lastItem, isExpired}) => {
         'font-semibold py-1 px-2 overflow-hidden text-ellipsis text-right',
         { 'text-green-700': data === STATE.COMPLETED || data === STATE.VALUE_CLAIMED_EXPIRED || data === STATE.CONFIRMED},
         { 'text-red-500': stateExpired || data === STATE.CANCELLED_BY_CREATOR},
-        { 'text-blue-600': (data === STATE.PENDING_ARBITRER_APPROVAL || data === STATE.PENDING_SELLER_DEPOSIT) && !isExpired},
+        { 'text-blue-600': (data === STATE.PENDING_ARBITRER_APPROVAL || data === STATE.PENDING_SELLER_DEPOSIT || data === STATE.PENDING_BUYER_DEPOSIT) && !isExpired},
     );
 
     return (
