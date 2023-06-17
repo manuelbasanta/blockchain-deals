@@ -1,7 +1,6 @@
 export enum DEAL {
     TRUSTLESS = 'Trustless Deal',
-    ARBITRER = 'Arbitrer Deal',
-    TIMELOCKED = 'Time Locked Deal',
+    ARBITRER = 'Arbitrer Deal'
 }
 
 export enum STATE {
@@ -17,8 +16,7 @@ export enum STATE {
 
 export const DEAL_ID_MAPPER = {
     0: DEAL.TRUSTLESS,
-    1: DEAL.ARBITRER,
-    2: DEAL.TIMELOCKED
+    1: DEAL.ARBITRER
 }
 
 export const STATE_ID_MAPPER = {

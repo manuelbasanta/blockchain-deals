@@ -5,6 +5,7 @@ import DataItem from "../DataItem";
 import TimeDataItem from "../TimeDataItem";
 import { getTrustlessDeal } from "../../../../services/getDeal/getTrustlessDeal";
 import Action from "../../../ui/Action/Action";
+import CopyButton from "../../../ui/CopyButton/copyButton";
 
 async function getData(id) {
     const data = await getTrustlessDeal(id);
@@ -37,12 +38,15 @@ const Deal = async ({ id }) => {
                 <div className="text-4xl font-bold">Deal #{data['id']} details</div>
                 <div className="text-lg font-light mt-2 text-gray-600">{ data['dealType']}</div>
                 <WalletProvider>
+                    <div className="mt-3 max-w-sm">
+                        <CopyButton label="Copy Deal link"  stringToCopy={`/deal/trustless/${data['id']}`} useOrigin/>
+                    </div>
                     <WalletConnectContainer message='If you take any part in this Deal connect your wallet to take action.'>
                         <Action arbitrer={data['arbitrer']} seller={data['seller']} buyer={data['buyer']} actions={data['actions']} />
                     </WalletConnectContainer>
                 </WalletProvider>
             </div>
-            <div className="border border-gray-300 rounded p-5 text-sm">
+            <div className="border border-gray-300 rounded p-5 text-sm h-fit">
                 {titleItem.map((item, index) => {
                     if(TIME_ITEMS.has(item[0])) return <TimeDataItem key={item[1]} item={item} lastItem={index === titleItem.length - 1}/>
                     return <DataItem isExpired={data['isExpired']} key={item[1]} item={item} lastItem={index === titleItem.length - 1}/>
