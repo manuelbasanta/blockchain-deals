@@ -4,19 +4,19 @@ import CardDeal from '../../ui/CardDeal/CardDeal';
 const DEELS = [
     {
         id: 0,
-        title: 'New Trustless Deal',
-        href: 'new/trustless-deal',
+        title: 'Trustless Deal',
+        href: 'new/buyer-trustless-deal',
         description: '',
     },
     {
         id: 1,
-        title: 'New Arbitrer Deal',
-        href: 'new/arbitrer-deal',
+        title: 'Arbitrer Deal',
+        href: 'new/buyer-arbitrer-deal',
         description: '',
     },
     {
         id: 2,
-        title: 'New Time locked Deal',
+        title: 'Time locked Deal',
         href: 'new/time-locked-deal',
         description: '',
     },
