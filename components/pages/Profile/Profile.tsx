@@ -9,6 +9,7 @@ import Loader from "../../ui/Loader/Loader";
 import Link from "next/link";
 import { ethers } from "ethers";
 import Image from "next/image";
+import moment from "moment";
 
 const Profile = () => {
   const { address } = useAccount();
@@ -24,14 +25,10 @@ const Profile = () => {
     seller: {
       loaded: false,
       data: []
-    },
-    arbitrer: {
-      loaded: false,
-      data: []
-    },
+    }
   });
   
-  const roles = ['buyer', 'seller', 'arbitrer'];
+  const roles = ['buyer', 'seller'];
 
   // TODO: se ejecuta dos veces getLogs en el primer render
 
@@ -39,7 +36,7 @@ const Profile = () => {
     const getLogs = () => {
       publicClientInstance.getLogs({
         address: process.env.contractAddress,
-        event: parseAbiItem('event DealCreated(string dealType, uint256 id, address indexed buyer, address indexed seller, address indexed arbitrer, uint256 expirationTime, uint256 value, string state)'),
+        event: parseAbiItem('event DealCreated(uint256 id, address indexed buyer, address indexed seller, uint256 creationTime, uint256 value)'),
         args: {
             [selectedRole]: address,
         },
@@ -61,14 +58,14 @@ const Profile = () => {
   const renderResults = (items) => {
     if(items.results.length === 0) return <div className="text-sm p-2">No Deals as {selectedRole}</div>
     const elements = items.results.map(result => {
-      const {id, dealType, value} = result.args;
+      const {id, dealType, value, creationTime} = result.args;
       const ethValue = ethers.formatEther(value);
 
       return (
-        <Link key={`${dealType}-${id}`} href={`/deal/${dealType}/${id}`}>
+        <Link key={`${dealType}-${id}`} href={`/deal/${id}`}>
           <div className="text-sm rounded-t flex mb-2 p-2 borde border-b justify-between border-gray-400 hover:bg-green-200">
-            <div className="font-semibold">{dealType}-{String(result.args.id)}</div>
-            <div className="ml-20 font-semibold flex">
+            <div className="font-semibold">#{String(result.args.id)}<div className="font-bold text-xs mt-1">Created: <span className="font-light text-xs">{moment.unix(Number(creationTime)).format('dddd MMMM DD YYYY')}</span></div></div>
+            <div className="ml-20 font-semibold flex items-center">
               {ethValue}
               <Image
                 className="ml-2"

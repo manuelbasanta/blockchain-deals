@@ -6,10 +6,8 @@ import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const selectAction = ({actions, address, arbitrer, seller, buyer}) => {
+const selectAction = ({actions, address, seller, buyer}) => {
     switch (address) {
-        case arbitrer:
-            return actions.arbitrer;
         case buyer:
             return actions.buyer;
         case seller:
@@ -21,14 +19,13 @@ const selectAction = ({actions, address, arbitrer, seller, buyer}) => {
 
 const Action = ({
     actions,
-    arbitrer,
     buyer,
     seller
 }) => {
     const { address } = useAccount();
     const router = useRouter();
     const [error, setError] = useState(null);
-    const action = selectAction({actions, seller, buyer, arbitrer, address});
+    const action = selectAction({actions, seller, buyer, address});
     const { name, type, label, args, buttonLabel, warning, info } = action;
 
     const { data, write , isLoading: isLoadingWrite, isSuccess } = useContractWrite({

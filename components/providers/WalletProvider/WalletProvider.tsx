@@ -6,7 +6,7 @@ const WalletProvider = ({
     children: React.ReactNode;
   }) => {
     return (
-        <WagmiContainer sepoliaKey={process.env.ALCHEMY_SEPOLIA_ID} mainnetKey={process.env.ALCHEMY_MAINNET_ID} >
+        <WagmiContainer sepoliaKey={process.env.ALCHEMY_SEPOLIA_ID} mainnetKey={process.env.ALCHEMY_MAINNET_ID}>
             {children}
         </WagmiContainer>
     );

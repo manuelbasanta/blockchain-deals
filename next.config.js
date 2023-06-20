@@ -11,7 +11,7 @@ const nextConfig = {
     env: {
         sepoliaContractAddress: '0xEF22B89CF972aACbbBD3c48f577Ca1a107Bd8aed',
         hardhatContractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-        contractAddress: '0x0b97b3BCCdd79e46D5994300B68A6961FB3209fD'
+        contractAddress: '0xE35E7d9a4b8e01869ca2789dA9f7feB1457C8Ee4'
     }
 };
    
