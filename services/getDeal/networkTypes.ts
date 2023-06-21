@@ -10,7 +10,8 @@ export const CHAIN_DATA = {
         alchemy_label: 'matic-mumbai',
         alchemy_id: process.env.ALCHEMY_MUMBAI_ID,
         contract_address: process.env.mumbaiContractAddress,
-        nativeCurrency: 'MATIC'
+        nativeCurrency: 'MATIC',
+        icon: 'mumbai.svg'
     },
     11155111: {
         id: 11155111,
@@ -18,7 +19,8 @@ export const CHAIN_DATA = {
         alchemy_label: 'sepolia',
         alchemy_id: process.env.ALCHEMY_SEPOLIA_ID,
         contract_address: process.env.sepoliaContractAddress,
-        nativeCurrency: 'SEP'
+        nativeCurrency: 'SEP',
+        icon: 'ethereum.svg'
     }
 };
 

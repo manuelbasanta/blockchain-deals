@@ -2,10 +2,9 @@
 
 import moment from "moment";
 
-const TimeDataItem = ({item}) => {
-    const [label, data] = item;
+const TimeDataItemnew = ({label, data, lastItem = false}) => {
     return (
-        <div key={label} className={`flex items-center justify-between p-2 whitespace-nowrap`}>
+        <div key={label} className={`flex items-center justify-between p-2 whitespace-nowrap$ ${lastItem ? '' : 'border-b'}`}>
             <div className="mr-10 font-light text-gray-900">
                 {label}
             </div>
@@ -19,4 +18,4 @@ const TimeDataItem = ({item}) => {
     )
 }
 
-export default TimeDataItem;
+export default TimeDataItemnew;

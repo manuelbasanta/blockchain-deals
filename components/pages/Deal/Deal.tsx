@@ -13,8 +13,6 @@ async function getData(id, chain) {
     return data;
 }
 
-const TIME_ITEMS = new Set(['Creation date','Expiration date'])
-
 const Deal = async ({ id, network = 11155111 }) => {
     const data = await getData(id, network);
     if(Object.keys(data).length === 0) return <div>Deal not found</div>
@@ -22,16 +20,6 @@ const Deal = async ({ id, network = 11155111 }) => {
     const buyerDeposit = ethers.formatEther(data['buyerDeposit']);
     const sellerDeposit = ethers.formatEther(data['sellerDeposit']);
     const networkData = CHAIN_DATA[network];
-    const titleItem = [
-        ['ID', data['id']],
-        ['Network', networkData.label],
-        ['Value', `${ethValue} ${networkData.nativeCurrency}`],
-        ['Buyer', data['buyer']],
-        ['Seller', data['seller']],
-        ['Seller\'s deposit', `${sellerDeposit} ${networkData.nativeCurrency}`],
-        ['Buyers\'s deposit', `${buyerDeposit} ${networkData.nativeCurrency}`],
-        ['State', data['state']],
-    ]
 
     return (
         <div className="w-full flex justify-between gap-10 flex-col md:flex-row text-base">
@@ -48,10 +36,15 @@ const Deal = async ({ id, network = 11155111 }) => {
                 </WalletProvider>
             </div>
             <div className="border border-gray-300 rounded p-5 text-sm h-fit">
-                {titleItem.map(item => {
-                    return <DataItem isExpired={data['isExpired']} key={item[1]} item={item} />
-                })}
-                <TimeDataItem key={'Creation date'} item={['Creation date', data['creationTime']]} />
+                <DataItem label="ID" data={data['id']} />
+                <DataItem label="Network" data={networkData.label} />
+                <DataItem label="Value" data={`${ethValue} ${networkData.nativeCurrency}`} icon={`/icons/${networkData.icon}`} />
+                <DataItem label="Buyer" data={data['buyer']} />
+                <DataItem label="Seller" data={data['seller']} />
+                <DataItem label="Seller's deposit" data={`${sellerDeposit} ${networkData.nativeCurrency}`} />
+                <DataItem label="Buyers's deposit" data={`${buyerDeposit} ${networkData.nativeCurrency}`} />
+                <TimeDataItem label="Creation date" data={data['creationTime']} />
+                <DataItem label="State" data={data['state']} lastItem />
             </div>
         </div>
     );

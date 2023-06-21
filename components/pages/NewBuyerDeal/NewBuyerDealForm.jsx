@@ -147,9 +147,9 @@ const NewBuyerDealForm = () => {
                 <Loader />
             </div>
             <Input label="Value" data={transactionData} validationText="The value should be grater than 0" handleChange={handleValueChange} placeholder={`Value of the transaction in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" />
-            <Input label="Seller's address" data={sellerData} validationText="Invalid Etheteum address" handleChange={handleBeneficiearyChange} placeholder="Seller's Ethereum address" type="text" />
+            <Input label="Seller's address" data={sellerData} validationText="Invalid address" handleChange={handleBeneficiearyChange} placeholder="Seller's address" type="text" />
             <Input label="Seller's deposit" data={sellerDepositData} validationText="The value should be grater than 0" handleChange={handleSellerDepositChange} placeholder={`The seller's deposit in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" info="The  seller's deposit should be significant so that he/she provides the service or goods. We recommend setting it to 30% of the value." />
-            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit has to be grater than the value." handleChange={handleCreatorDepositChange} placeholder={`Your deposit in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 ETH the deposit should be .165 ETH). This way the seller can rest asured you will keep your part of the deal." />
+            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit has to be grater than the value." handleChange={handleCreatorDepositChange} placeholder={`Your deposit in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 the deposit should be .165). This way the seller can rest asured you will keep your part of the deal." />
             <Selector value={selectedChain}  label="Select Network"  items={NETWORK_SELECTOR_ITEMS} onSelect={setSelectedChain} />
             <div className="flex">
                 <Button label="Create Trustless Deal" onClick={handleFormSubmit} type="primary" />

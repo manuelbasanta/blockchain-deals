@@ -5,7 +5,9 @@ import { getAvailableActions } from "./getAvailableActions";
 import { CHAIN_DATA } from "./networkTypes";
 
 export const getDeal = async ({id, chain = 11155111}) => {
-    const { alchemy_label, alchemy_id, contract_address } = CHAIN_DATA[chain];
+    const chainData = CHAIN_DATA[chain];
+    if(!chainData) return {};
+    const { alchemy_label, alchemy_id, contract_address } = chainData;
     const alchemyProvider = new ethers.AlchemyProvider(alchemy_label, alchemy_id);
     const contract = new ethers.Contract(contract_address, blockchainDealsABI, alchemyProvider);
 
