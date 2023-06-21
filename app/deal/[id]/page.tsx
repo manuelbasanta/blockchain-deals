@@ -11,8 +11,9 @@ export async function generateMetadata(
     }
   }
 
-export default function Page({ params }) {
+export default function Page({params, searchParams}) {
+    const { network } = searchParams;
     const { id } = params;
     {/* @ts-expect-error Server Component */}
-    return <Deal id={id} />;
+    return <Deal id={id} network={network} />;
 }

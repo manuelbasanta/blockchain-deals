@@ -2,10 +2,12 @@ import { ethers } from "ethers";
 import { blockchainDealsABI } from '../../contracts/blockchainDealsABI.js';
 import { STATE_ID_MAPPER } from "./dealTypes";
 import { getAvailableActions } from "./getAvailableActions";
+import { CHAIN_DATA } from "./networkTypes";
 
-export const getDeal = async (id) => {
-    const alchemyProvider = new ethers.AlchemyProvider("sepolia", process.env.ALCHEMY_SEPOLIA_ID);
-    const contract = new ethers.Contract(process.env.contractAddress, blockchainDealsABI, alchemyProvider);
+export const getDeal = async ({id, chain = 11155111}) => {
+    const { alchemy_label, alchemy_id, contract_address } = CHAIN_DATA[chain];
+    const alchemyProvider = new ethers.AlchemyProvider(alchemy_label, alchemy_id);
+    const contract = new ethers.Contract(contract_address, blockchainDealsABI, alchemyProvider);
 
     try {
         const deal = await contract.getDealById(id);

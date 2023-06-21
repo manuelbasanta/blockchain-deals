@@ -21,7 +21,7 @@ const NewDeal = () => {
                             ]}/>
                         </div>
                         <div className="flex gap-1 flex-col">
-                            <Button label="New Deal as Buyer" href="new/buyer-deal" type="primary"/>
+                            <Button label="New Deal as Buyer" href="new/buyer-deal" type="info"/>
                         </div>
                     </div>
                 </Card>

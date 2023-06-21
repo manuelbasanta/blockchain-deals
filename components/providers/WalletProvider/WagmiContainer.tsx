@@ -11,10 +11,12 @@ import { PublicClientContext } from './PublicClientContext';
 const WagmiContainer =  ({
     sepoliaKey,
     mainnetKey,
+    mumbaiKey,
     children,
   }: {
     sepoliaKey: string,
     mainnetKey: string,
+    mumbaiKey: string,
     children: React.ReactNode;
   }) => {
     const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -22,6 +24,7 @@ const WagmiContainer =  ({
         [
           alchemyProvider({ apiKey: sepoliaKey }),
           alchemyProvider({ apiKey: mainnetKey }),
+          alchemyProvider({ apiKey: mumbaiKey }),
           publicProvider()
         ],
       );

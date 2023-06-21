@@ -10,6 +10,7 @@ import Link from "next/link";
 import { ethers } from "ethers";
 import Image from "next/image";
 import moment from "moment";
+import { CHAIN_DATA } from "../../../services/getDeal/networkTypes";
 
 const Profile = () => {
   const { address } = useAccount();
@@ -32,28 +33,41 @@ const Profile = () => {
 
   // TODO: se ejecuta dos veces getLogs en el primer render
 
-  useEffect(() => {
-    const getLogs = () => {
-      publicClientInstance.getLogs({
-        address: process.env.contractAddress,
-        event: parseAbiItem('event DealCreated(uint256 id, address indexed buyer, address indexed seller, uint256 creationTime, uint256 value)'),
-        args: {
-            [selectedRole]: address,
-        },
-        fromBlock: 'earliest'
-      }).then(data => {
-        setResults({
-          ...results,
-          [selectedRole]: {
-            loaded: true,
-            results: data
-          }
-        })
+  const getLogs = () => {
+    publicClientInstance.getLogs({
+      address: CHAIN_DATA[chain.id].contract_address,
+      event: parseAbiItem('event DealCreated(uint256 id, address indexed buyer, address indexed seller, uint256 creationTime, uint256 value)'),
+      args: {
+        [selectedRole]: address,
+      },
+      fromBlock: 'earliest'
+    }).then(data => {
+      setResults({
+        ...results,
+        [selectedRole]: {
+          loaded: true,
+          results: data
+        }
       })
-    }
-    if(!results[selectedRole].loaded) getLogs();
+    })
+  }
 
-  }, [selectedRole]);
+  useEffect(() => {
+    if(!results[selectedRole].loaded) getLogs();
+  }, [selectedRole, results]);
+
+  useEffect(() => {
+    setResults({
+      buyer: {
+        loaded: false,
+        data: []
+      },
+      seller: {
+        loaded: false,
+        data: []
+      }
+    });
+  }, [address, chain]);
 
   const renderResults = (items) => {
     if(items.results.length === 0) return <div className="text-sm p-2">No Deals as {selectedRole}</div>
@@ -62,18 +76,15 @@ const Profile = () => {
       const ethValue = ethers.formatEther(value);
 
       return (
-        <Link key={`${dealType}-${id}`} href={`/deal/${id}`}>
+        <Link key={`${dealType}-${id}`} href={`/deal/${id}?network=${chain.id}`}>
           <div className="text-sm rounded-t flex mb-2 p-2 borde border-b justify-between border-gray-400 hover:bg-green-200">
-            <div className="font-semibold">#{String(result.args.id)}<div className="font-bold text-xs mt-1">Created: <span className="font-light text-xs">{moment.unix(Number(creationTime)).format('dddd MMMM DD YYYY')}</span></div></div>
-            <div className="ml-20 font-semibold flex items-center">
-              {ethValue}
-              <Image
-                className="ml-2"
-                src="/icons/ethereum.svg"
-                alt="ethereum logo"
-                height="10"
-                width="10"
-              />
+            <div className="font-semibold">#{String(result.args.id)}<div className="font-light text-xs mt-1">Created: <span className="text-xs font-bold">{moment.unix(Number(creationTime)).format('dddd MMMM DD YYYY')}</span></div></div>
+            <div className="ml-20 font-semibold flex flex-col items-end justify-between">
+              <div>
+                {ethValue}
+                <span className="ml-1">{CHAIN_DATA[chain.id].nativeCurrency}</span>
+              </div>
+              <div className="text-xs font-light">Network: <span className="font-bold">{CHAIN_DATA[chain.id].label}</span></div>
             </div>
           </div>
         </Link>
@@ -93,6 +104,7 @@ const Profile = () => {
           {roles.map(role => (
             <Button key={role} label={role.toLocaleUpperCase()} onClick={() => setSelectedRole(role)} type={selectedRole === role ? 'primary' : 'secondary'} />
           ))}
+          <div className="max-w-xs text-sm mt-2 text-gray-600 mb-8 break-words">Deals for address <span className="font-bold">{address}</span> in  <span className="font-bold">{CHAIN_DATA[chain.id].label}</span> network.</div>
         </div>
         <div className="md:ml-5 min-w-[40%]">
           <div className="flex justify-between px-2 font-semibold text-sm mb-2">

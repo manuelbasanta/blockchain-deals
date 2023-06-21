@@ -8,27 +8,44 @@ import { blockchainDealsABI } from '../../../contracts/blockchainDealsABI';
 import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
 import { useRouter } from 'next/navigation'
 import Loader from "../../ui/Loader/Loader";
+import { CHAIN_DATA, NETWORK_SELECTOR_ITEMS } from "../../../services/getDeal/networkTypes";
+import Selector from "../../ui/Selector/Selector";
 
 const NewSellerDealForm = () => {
     const router = useRouter();
     const { address } = useAccount();
     const [error, setError] = useState(null);
+    const [selectedChain, setSelectedChain] = useState(11155111);
+
     let contractInterface = new ethers.Interface(blockchainDealsABI);
     const { data, write, isLoading: isLoadingWrite, isSuccess } = useContractWrite({
-        address: process.env.contractAddress,
+        address: CHAIN_DATA[selectedChain].contract_address,
         abi: blockchainDealsABI,
         functionName: 'createDealAsSeller',
         onError(error) {
-            setError(error.cause.shortMessage);
-        },      
+            if(error.name === 'ChainMismatchError') {
+                setError('Chain mismatch error: selected network has to be the same as the wallet selected network.');
+            } else {
+                setError(error.cause.shortMessage);
+            }
+        },
+        chainId: CHAIN_DATA[selectedChain].id
     });
 
     const { isLoading } = useWaitForTransaction({
         hash: data?.hash,
         onSettled(data, error) {
             if(!error) {
-                const parsedLogs = contractInterface.parseLog(data.logs[0]);
-                router.push(`/deal/${Number(parsedLogs.args[0])}`);
+                let parsedLogs;
+                if(data.logs.length === 1) {
+                    parsedLogs = contractInterface.parseLog(data.logs[0]);
+                } else {
+                    parsedLogs = contractInterface.parseLog(data.logs[1]);
+                }
+                console.log(parsedLogs)
+                router.push(`/deal/${Number(parsedLogs.args[0])}?network=${selectedChain}`);
+            } else {
+                console.log(error)
             }
         }
     })
@@ -130,10 +147,11 @@ const NewSellerDealForm = () => {
                 <p className="font-bold text-center">Waiting for transaction. This may take a few seconds</p>
                 <Loader />
             </div>
-            <Input label="Value" data={transactionData} validationText="The value should be grater than 0" handleChange={handleValueChange} placeholder="Value of the transaction in ETH" type="number" />
+            <Input label="Value" data={transactionData} validationText="The value should be grater than 0" handleChange={handleValueChange} placeholder={`Value of the transaction in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" />
             <Input label="Buyer's address" data={buyerData} validationText="Invalid Etheteum address" handleChange={handleBeneficiearyChange} placeholder="Buyer's Ethereum address" type="text" />
-            <Input label="Buyer's deposit" data={buyerDepositData} validationText="The value should be grater than 0" handleChange={handleBuyerDepositChange} placeholder="The buyer's deposit in ETH" type="number" info="The  buyer's deposit should be significant so that he/she provides the service or goods. We recommend setting it to 30% of the value." />
-            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit has to be grater than 0." handleChange={handleCreatorDepositChange} placeholder="Your deposit in ETH" type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 ETH the deposit should be .165 ETH). This way the buyer can rest asured you will keep your part of the deal." />
+            <Input label="Buyer's deposit" data={buyerDepositData} validationText="The value should be grater than 0" handleChange={handleBuyerDepositChange} placeholder={`The buyer's deposit in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" info="The  buyer's deposit should be significant so that he/she provides the service or goods. We recommend setting it to 30% of the value." />
+            <Input label="Your deposit" data={creatorDepositData} validationText="Your deposit has to be grater than 0." handleChange={handleCreatorDepositChange} placeholder={`Your deposit in ${CHAIN_DATA[selectedChain].nativeCurrency}`} type="number" info="We recommend to set a deposit that is at least 110% of the value (i.e. if the value is .15 ETH the deposit should be .165 ETH). This way the buyer can rest asured you will keep your part of the deal." />
+            <Selector value={selectedChain}  label="Select Network"  items={NETWORK_SELECTOR_ITEMS} onSelect={setSelectedChain} />
             <div className="flex">
                 <Button label="Create Trustless Deal" onClick={handleFormSubmit} type="primary" />
             </div>
