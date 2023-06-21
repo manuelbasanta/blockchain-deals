@@ -1,15 +1,13 @@
 "use client";
 
-import { useAccount, useContractWrite, useWaitForTransaction } from "wagmi";
+import { useAccount, useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
 import { blockchainDealsABI } from '../../../contracts/blockchainDealsABI';
 import Button from "../Button/Button";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-const selectAction = ({actions, address, arbitrer, seller, buyer}) => {
+const selectAction = ({actions, address, seller, buyer}) => {
     switch (address) {
-        case arbitrer:
-            return actions.arbitrer;
         case buyer:
             return actions.buyer;
         case seller:
@@ -21,20 +19,24 @@ const selectAction = ({actions, address, arbitrer, seller, buyer}) => {
 
 const Action = ({
     actions,
-    arbitrer,
     buyer,
-    seller
+    seller,
+    chainData,
 }) => {
     const { address } = useAccount();
     const router = useRouter();
+    const { chain } = useNetwork();
+
     const [error, setError] = useState(null);
-    const action = selectAction({actions, seller, buyer, arbitrer, address});
+    const action = selectAction({actions, seller, buyer, address});
     const { name, type, label, args, buttonLabel, warning, info } = action;
 
+
     const { data, write , isLoading: isLoadingWrite, isSuccess } = useContractWrite({
-        address: process.env.contractAddress,
+        address: chainData.contract_address,
         abi: blockchainDealsABI,
         functionName: name,
+        chainId: chainData.id,
         onError(error) {
             setError(error.cause.shortMessage);
         }, 
@@ -44,7 +46,6 @@ const Action = ({
         hash: data?.hash,
         onSettled(data, error) {
             if(!error) {
-                console.log(data);
                 router.refresh();
             }
         }
@@ -63,12 +64,22 @@ const Action = ({
 
     return (
         <div className="flex gap-3 flex-col max-w-sm text-sm">
-            <div className="mt-4 mb-4 text-gray-900 rounded break-words">Available actions for <span className="font-bold">{address}</span>:</div>
-            <div className="text-base mb-4">{label}</div>
-            {warning && <div className="font-semibold text-red-600 mb-4 px-2 py-1 border-l-2 border-dashed border-red-600">{warning}</div>}
-            {info && <div className="w-fit font-semibold text-blue-600 mb-4 px-2 py-0 border-l-2 border-dashed border-blue-600">{info}</div>}
-            <Button type="primary" label={buttonLabel} loading={isLoading} onClick={() => write(args)}/>
-            {(error && !isLoadingWrite && !isSuccess) && <div className="text-red-700 rounded p-2 bg-red-100 font-semibold text-sm border border-red-700">{error}</div>}
+            {chainData.id !== chain.id ? (
+                <div className="text-red-700 rounded p-2 bg-red-100 text-sm border border-red-700 mt-5">
+                    <div className="font-semibold mb-2">Change network</div>
+                    This is a <span className="font-semibold">{chainData.label}</span> Deal and you are currently connected to <span className="font-semibold">{chain.name}</span>. Switch to <span className="font-semibold">{chainData.label}</span> to take action.
+                </div>
+                ) : (
+                    <>
+                    <div className="mt-4 mb-4 text-gray-900 rounded break-words">Available actions for <span className="font-bold">{address}</span>:</div>
+                    <div className="text-base mb-4">{label}</div>
+                    {warning && <div className="font-semibold text-red-600 mb-4 px-2 py-1 border-l-2 border-dashed border-red-600">{warning}</div>}
+                    {info && <div className="w-fit font-semibold text-blue-600 mb-4 px-2 py-0 border-l-2 border-dashed border-blue-600">{info}</div>}
+                    <Button type="primary" label={buttonLabel} loading={isLoading} onClick={() => write(args)}/>
+                    {(error && !isLoadingWrite && !isSuccess) && <div className="text-red-700 rounded p-2 bg-red-100 font-semibold text-sm border border-red-700">{error}</div>}
+                </>
+                )
+            }
         </div>
     )
 }

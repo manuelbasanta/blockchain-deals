@@ -2,7 +2,7 @@
 
 #### Easy, safe Blockchain Escrows
 
-Exchange goods for ETH safely, with friends or complete extrangers, backed by the Ethereum blockchain
+Exchange goods or sevices safely, with friends or complete extrangers, backed by the blockchain.
 
 <img width="1511" alt="home" src="https://github.com/manuelbasanta/blockchain-deals/assets/26985597/37ce5656-ceee-45d0-a18c-54274b3ec17e">
 

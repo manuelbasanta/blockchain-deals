@@ -1,29 +1,37 @@
 import classNames from "classnames";
 import { STATE } from "../../../services/getDeal/dealTypes";
+import Image from "next/image";
 
-const DataItem = ({item, lastItem, isExpired}) => {
-    const [label, data] = item;
-    const stateExpired = data !== STATE.COMPLETED && data !== STATE.VALUE_CLAIMED_EXPIRED && isExpired && lastItem;
+const DataItemnew = ({label, data, lastItem = false, type = 'regular', icon = null}) => {
     const stateClassName = classNames(
-        'font-semibold py-1 px-2 overflow-hidden text-ellipsis text-right',
-        { 'text-green-700': data === STATE.COMPLETED || data === STATE.VALUE_CLAIMED_EXPIRED || data === STATE.CONFIRMED},
-        { 'text-red-500': stateExpired || data === STATE.CANCELLED_BY_CREATOR},
-        { 'text-blue-600': (data === STATE.PENDING_ARBITRER_APPROVAL || data === STATE.PENDING_SELLER_DEPOSIT || data === STATE.PENDING_BUYER_DEPOSIT) && !isExpired},
+        'font-semibold py-1 px-2 overflow-hidden text-ellipsis text-right flex',
+        { 'text-green-700': data === STATE.COMPLETED || data === STATE.CONFIRMED},
+        { 'text-red-500': data === STATE.CANCELLED_BY_CREATOR},
+        { 'text-blue-600': data === STATE.PENDING_SELLER_DEPOSIT || data === STATE.PENDING_BUYER_DEPOSIT},
     );
 
     return (
-        <div key={label} className={`flex items-center justify-between p-2 whitespace-nowrap ${ !lastItem ? 'border-b border-gray-300' : ''}`}>
-            <div className="mr-10 font-medium  text-gray-900">
+        <div key={label} className={`flex items-center justify-between p-2 whitespace-nowrap ${lastItem ? '' : 'border-b'}`}>
+            <div className="mr-10 font-light  text-gray-900">
                 {label}
             </div>
             <div
-                title={stateExpired ? 'Expired' : data}
+                title={data}
                 className={stateClassName}
             >
-                {stateExpired ? 'Expired' : data}
+                {data}
+                {icon && (
+                    <Image
+                        className="ml-2"
+                        src={icon}
+                        alt={data}
+                        height="12"
+                        width="12"
+                    />
+                )}
             </div>
         </div>
     )
 }
 
-export default DataItem;
+export default DataItemnew;

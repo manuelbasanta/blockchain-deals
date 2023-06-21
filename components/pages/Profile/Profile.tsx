@@ -8,6 +8,8 @@ import Button from "../../ui/Button/Button";
 import Loader from "../../ui/Loader/Loader";
 import Link from "next/link";
 import { ethers } from "ethers";
+import moment from "moment";
+import { CHAIN_DATA, NETWORK_SELECTOR_ITEMS } from "../../../services/getDeal/networkTypes";
 import Image from "next/image";
 
 const Profile = () => {
@@ -24,59 +26,74 @@ const Profile = () => {
     seller: {
       loaded: false,
       data: []
-    },
-    arbitrer: {
-      loaded: false,
-      data: []
-    },
+    }
   });
+
+  console.log(chain)
   
-  const roles = ['buyer', 'seller', 'arbitrer'];
+  const roles = ['buyer', 'seller'];
 
   // TODO: se ejecuta dos veces getLogs en el primer render
 
-  useEffect(() => {
-    const getLogs = () => {
-      publicClientInstance.getLogs({
-        address: process.env.contractAddress,
-        event: parseAbiItem('event DealCreated(string dealType, uint256 id, address indexed buyer, address indexed seller, address indexed arbitrer, uint256 expirationTime, uint256 value, string state)'),
-        args: {
-            [selectedRole]: address,
-        },
-        fromBlock: 'earliest'
-      }).then(data => {
-        setResults({
-          ...results,
-          [selectedRole]: {
-            loaded: true,
-            results: data
-          }
-        })
+  const getLogs = () => {
+    publicClientInstance.getLogs({
+      address: CHAIN_DATA[chain.id].contract_address,
+      event: parseAbiItem('event DealCreated(uint256 id, address indexed buyer, address indexed seller, uint256 creationTime, uint256 value)'),
+      args: {
+        [selectedRole]: address,
+      },
+      fromBlock: 'earliest'
+    }).then(data => {
+      setResults({
+        ...results,
+        [selectedRole]: {
+          loaded: true,
+          results: data
+        }
       })
-    }
-    if(!results[selectedRole].loaded) getLogs();
+    })
+  }
 
-  }, [selectedRole]);
+  useEffect(() => {
+    if(!results[selectedRole].loaded) getLogs();
+  }, [selectedRole, results]);
+
+  useEffect(() => {
+    setResults({
+      buyer: {
+        loaded: false,
+        data: []
+      },
+      seller: {
+        loaded: false,
+        data: []
+      }
+    });
+  }, [address, chain]);
 
   const renderResults = (items) => {
     if(items.results.length === 0) return <div className="text-sm p-2">No Deals as {selectedRole}</div>
     const elements = items.results.map(result => {
-      const {id, dealType, value} = result.args;
+      const {id, dealType, value, creationTime} = result.args;
       const ethValue = ethers.formatEther(value);
 
       return (
-        <Link key={`${dealType}-${id}`} href={`/deal/${dealType}/${id}`}>
+        <Link key={`${dealType}-${id}`} href={`/deal/${id}?network=${chain.id}`}>
           <div className="text-sm rounded-t flex mb-2 p-2 borde border-b justify-between border-gray-400 hover:bg-green-200">
-            <div className="font-semibold">{dealType}-{String(result.args.id)}</div>
-            <div className="ml-20 font-semibold flex">
-              {ethValue}
-              <Image
-                className="ml-2"
-                src="/icons/ethereum.svg"
-                alt="ethereum logo"
-                height="10"
-                width="10"
-              />
+            <div className="font-semibold">#{String(result.args.id)}<div className="font-light text-xs mt-1">Created: <span className="text-xs font-bold">{moment.unix(Number(creationTime)).format('dddd MMMM DD YYYY')}</span></div></div>
+            <div className="ml-20 font-semibold flex flex-col items-end justify-between">
+              <div className="flex items-center">
+                {ethValue}
+                <span className="ml-1 inline-flex">
+                  <Image
+                    src={`/icons/${CHAIN_DATA[chain.id]?.icon}`}
+                    alt={CHAIN_DATA[chain.id]?.label}
+                    width="12"
+                    height="12"
+                  />
+                </span>
+              </div>
+              <div className="text-xs font-light">Network: <span className="font-bold">{CHAIN_DATA[chain.id]?.label}</span></div>
             </div>
           </div>
         </Link>
@@ -96,6 +113,18 @@ const Profile = () => {
           {roles.map(role => (
             <Button key={role} label={role.toLocaleUpperCase()} onClick={() => setSelectedRole(role)} type={selectedRole === role ? 'primary' : 'secondary'} />
           ))}
+
+          {
+            !CHAIN_DATA[chain.id] ? (
+              <div className="max-w-xs text-sm mt-2 text-gray-600 mb-8 break-words">
+                Unsupported network, please change your wallet network: {NETWORK_SELECTOR_ITEMS.map((network, index) => <span className="font-semibold" key={network.label}> {network.label}{index === NETWORK_SELECTOR_ITEMS.length - 1 ? '.' : ','}</span>)}
+                </div>
+            ) :
+            (
+              <div className="max-w-xs text-sm mt-2 text-gray-600 mb-8 break-words">Deals for address <span className="font-bold">{address}</span> in  <span className="font-bold">{CHAIN_DATA[chain.id]?.label}</span> network.</div>
+            )
+          }
+
         </div>
         <div className="md:ml-5 min-w-[40%]">
           <div className="flex justify-between px-2 font-semibold text-sm mb-2">
