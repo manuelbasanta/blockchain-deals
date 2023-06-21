@@ -108,7 +108,7 @@ const Profile = () => {
       <div className="text-4xl font-bold">Address Deals</div>
       <div className="text-base font-light mt-2 text-gray-600 mb-8">Select a role to see all Deals where you take part. <span className="font-bold">Select a Deal to see more information and take action. </span></div>
       <div className="flex flex-col md:flex-row">
-        <div className="flex flex-col gap-2 md:border-r border-gray-400 pb-5 mb-5 md:pr-5">
+        <div className="flex flex-col gap-2 md:border-r border-gray-400 pb-5 md:pr-5">
           <div className="text-sm mb-2">Select your role in the Deal:</div>
           {roles.map(role => (
             <Button key={role} label={role.toLocaleUpperCase()} onClick={() => setSelectedRole(role)} type={selectedRole === role ? 'primary' : 'secondary'} />

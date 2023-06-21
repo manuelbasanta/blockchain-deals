@@ -9,9 +9,8 @@ const nextConfig = {
         return config;
     },
     env: {
-        sepoliaContractAddress: '0xE35E7d9a4b8e01869ca2789dA9f7feB1457C8Ee4',
-        hardhatContractAddress: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-        mumbaiContractAddress: '0xE0917DCEb4BbCB45D37a33449D28A43c6DD26C14',
+        sepoliaContractAddress: '0x9E5C0D26A518903dbec3dc8905DeB9CC608a7199',
+        mumbaiContractAddress: '0x18A31814F7FE5E0cB62BdC8788d36B90f2336755',
     }
 };
    
