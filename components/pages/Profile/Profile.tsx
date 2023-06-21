@@ -8,7 +8,6 @@ import Button from "../../ui/Button/Button";
 import Loader from "../../ui/Loader/Loader";
 import Link from "next/link";
 import { ethers } from "ethers";
-import Image from "next/image";
 import moment from "moment";
 import { CHAIN_DATA } from "../../../services/getDeal/networkTypes";
 
