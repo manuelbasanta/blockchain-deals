@@ -6,7 +6,7 @@ import NumberedList from '../../ui/NumberedList/NumberedList';
 const NewDeal = () => {
     return (
         <div>
-            <Title title="New escrow Deal" subtitle="Select what type of Deal you want to create" />
+            <Title title="New Deal" subtitle="Select what type of Deal you want to create" />
             <div className="flex gap-8 flex-wrap">
                 <Card>
                     <div className="flex items-center justify-between flex-col h-[100%]">
