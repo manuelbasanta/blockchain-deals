@@ -28,8 +28,6 @@ const Profile = () => {
       data: []
     }
   });
-
-  console.log(chain)
   
   const roles = ['buyer', 'seller'];
 

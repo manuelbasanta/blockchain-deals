@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { inter } from "../fonts/fonts";
 import { Metadata } from 'next';
 import Header from '../components/ui/Header/Header';
+import Footer from '../components/ui/Footer/Footer';
 
 export const metadata: Metadata = {
   title: {
@@ -20,10 +21,11 @@ export default function RootLayout({
       <html lang="en" className={inter.className}>
         <body>
           <Header />
-          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8">
+          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth overflow-y-scroll">
             {children}
             <Analytics />
           </main>
+          <Footer />
         </body>
       </html>
     );
