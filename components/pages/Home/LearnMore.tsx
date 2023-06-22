@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
 import Image from "next/image";
-import styles from "./home.module.scss";
 import NumberedList from "../../ui/NumberedList/NumberedList";
 import Button from "../../ui/Button/Button";
 import { pt_serif } from "../../../fonts/fonts";
@@ -14,7 +13,7 @@ const LearnMore = () => {
                 </div>
                 <div>
                     If you need to exchange goods or services with someone you do not know you usually need a third party to act as an intermediary, keeping custody of the good or service until the deal is completed.
-                    The problem is why would I trust this third party?
+                    The problem is: why would I trust this third party?
                     <span className="mt-2 block">
                         The good news is: with the <span className="font-semibold">blockchain you don't have to!</span>
                     </span>
@@ -40,7 +39,7 @@ const LearnMore = () => {
                             'The buyer will store the value of the good or service and a deposit, the seller will make a deposit too.',
                             'Let the counterpart know you\'ve creted the Deal sot that they can confirm it!',
                             'Once it\'s confirmed it\'s time to complete the deal, the seller get\'s the deposit and the value back, the buyer get\'s the deposit back as well.',
-                            'Yes, that\'s all.'
+                            'That is all.'
                         ]}
 
                     />
@@ -78,10 +77,10 @@ const LearnMore = () => {
                 </div>
                 </div>
             </div>
-            <div className="flex flex-col items-center border border-gray-900 rounded p-8 bg-green-300">
-                <p className="text-4xl font-semibold mb-1">See it for yourself!</p>
+            <div className="flex flex-col items-center border border-gray-900 rounded p-8 bg-green-300 w-full">
+                <p className="text-4xl font-semibold mb-1">Are you ready to see it for yourself?</p>
                 <p className="mb-5 font-light">You can try a testnet:</p>
-                <Button label="Create a new Deal" href="/new" type="primary"/>
+                <Button label="Create a new Deal" href="/new" type="info"/>
             </div>
         </>
 )

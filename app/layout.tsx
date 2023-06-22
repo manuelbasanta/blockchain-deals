@@ -19,9 +19,9 @@ export default function RootLayout({
   }) {
     return (
       <html lang="en" className={inter.className}>
-        <body>
+        <body className="min-h-screen flex justify-between flex-col">
           <Header />
-          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth overflow-y-scroll">
+          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth overflow-y-scroll mb-auto w-full">
             {children}
             <Analytics />
           </main>
