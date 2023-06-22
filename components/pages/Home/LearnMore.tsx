@@ -26,7 +26,7 @@ const LearnMore = () => {
                         <Image
                             src="/imgs/contract.png"
                             alt="Smart contract"
-                            width="500"
+                            width="400"
                             height="100"
                         />
                     </span>
