@@ -21,7 +21,7 @@ export default function RootLayout({
       <html lang="en" className={inter.className}>
         <body className="min-h-screen flex justify-between flex-col">
           <Header />
-          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth overflow-y-scroll mb-auto w-full">
+          <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth mb-auto w-full">
             {children}
             <Analytics />
           </main>
