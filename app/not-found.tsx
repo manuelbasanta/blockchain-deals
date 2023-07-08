@@ -7,8 +7,8 @@ const NotFound = () => (
             className="ml-2"
             src="/icons/not-found.svg"
             alt="Not found icon"
-            height="100"
-            width="100"
+            height="70"
+            width="70"
         />
         <h2 className="m-5 text-sm">The content you are looking for does not exist.</h2>
         <Button label="Go back home" href="/" type="primary" />
