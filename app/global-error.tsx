@@ -17,8 +17,8 @@ const GlobalError = ({
     <html lang="en" className={inter.className}>
         <body className="min-h-screen flex justify-between flex-col">
         <Header />
-        <main className="mx-auto flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth mb-auto w-full">
-        <Image
+        <main className="mx-auto flex-1 flex max-w-7xl items-center justify-center p-6 lg:px-8 flex-col scroll-smooth mb-auto w-full text-center">
+            <Image
                 className="ml-2"
                 src="/icons/error.svg"
                 alt="Not found icon"
