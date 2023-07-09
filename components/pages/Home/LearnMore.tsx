@@ -3,6 +3,7 @@ import Image from "next/image";
 import NumberedList from "../../ui/NumberedList/NumberedList";
 import Button from "../../ui/Button/Button";
 import { pt_serif } from "../../../fonts/fonts";
+import Link from "next/link";
 
 const LearnMore = () => {
     return (
@@ -21,7 +22,7 @@ const LearnMore = () => {
                         <span className="my-5 block font-semibold text-gree text-green-700">
                             Simply trust the code deployed to the Blockchain.
                         </span>
-                        A Blockchain Escrow Deal replaces the third party with a Smart Contract that will always follow the rules and make the Deal worth of trust.
+                        A Blockchain Escrow Deal replaces the third party with a Smart Contract that will always follow the rules and make the Deal worth of trust. <span className=" text-blue-600 underline-offset-4 underline"><Link href="/about">Learn more about Deals</Link></span>.
                         <span className="mt-10 flex justify-center">
                             <Image
                                 src="/imgs/contract.png"
@@ -32,7 +33,7 @@ const LearnMore = () => {
                         </span>
                     </div>
                 </div>
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full gap-8 md:gap-36 text-lg" id="learn-more">
+                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full gap-8 md:gap-36 text-lg">
                     <div className="rounded border border-gray-900 p-8 bg-white">
                         <div className="text-sm font-light">Just a few</div>
                         <div className="font-semibold mb-3">Reasons why you should:</div>

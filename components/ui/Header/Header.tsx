@@ -1,10 +1,23 @@
+"use client";
+
 import Link from "next/link";
 import { pt_serif } from "../../../fonts/fonts";
 import Button from "../Button/Button";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+    const [top, setTop] = useState(true);
+
+    useEffect(() => {
+        const scrollHandler = () => {
+            window.scrollY > 10 ? setTop(false) : setTop(true)
+        };
+        window.addEventListener('scroll', scrollHandler);
+        return () => window.removeEventListener('scroll', scrollHandler);
+    }, [top]);
+
     return (
-        <header className="bg-white/50 backdrop-blur sticky top-0 z-50">
+        <header className={`bg-white/50 backdrop-blur sticky top-0 z-50 transition-all ${top ? '' : 'border-b border-b-gray-900'}`}>
             <nav className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8" aria-label="Global">
                 <div className="flex items-center justify-between flex-1">
                     <Link className="text-2xl font-bold" href="/" >
