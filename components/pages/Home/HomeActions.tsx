@@ -4,8 +4,7 @@ import Button from "../../ui/Button/Button"
 const HomeActions = () => {
     const handleScroll = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         e.preventDefault();
-        const targetId = 'learn-more';
-        const elem = document.getElementById(targetId);
+        const elem = document.getElementById('learn-more');
         window.scrollTo({
           top: elem?.getBoundingClientRect().top,
           behavior: "smooth",

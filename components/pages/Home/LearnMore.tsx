@@ -33,7 +33,7 @@ const LearnMore = () => {
                         </span>
                     </div>
                 </div>
-                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full gap-8 md:gap-36 text-lg" id="learn-more">
+                <div className="flex flex-col-reverse md:flex-row items-center justify-between w-full gap-8 md:gap-36 text-lg">
                     <div className="rounded border border-gray-900 p-8 bg-white">
                         <div className="text-sm font-light">Just a few</div>
                         <div className="font-semibold mb-3">Reasons why you should:</div>
