@@ -4,9 +4,10 @@
 
 Exchange goods or sevices safely, with friends or complete extrangers, backed by the blockchain.
 
-<img width="1511" alt="home" src="https://github.com/manuelbasanta/blockchain-deals/assets/26985597/37ce5656-ceee-45d0-a18c-54274b3ec17e">
+<img width="1359" alt="Screenshot 2023-07-09 at 13 51 52" src="https://github.com/manuelbasanta/blockchain-deals/assets/26985597/17397e5c-6fdb-4318-b1c6-5cdd69a38dc6">
 
 ## Run Locally
+
 
 Clone the project
 
