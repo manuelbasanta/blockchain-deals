@@ -7,7 +7,7 @@ const NewDeal = () => {
     return (
         <div>
             <Title title="New Deal" subtitle="Select what type of Deal you want to create" />
-            <div className="flex gap-8 flex-wrap">
+            <div className="flex gap-8 flex-wrap justify-center">
                 <Card>
                     <div className="flex items-center justify-between flex-col h-[100%]">
                         <div>
