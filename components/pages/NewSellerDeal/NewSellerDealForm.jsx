@@ -74,7 +74,7 @@ const NewSellerDealForm = () => {
         try {
             write({
                 args: [value, buyerData.value, creatorDepositValue, buyerDepositValue],
-                value: value + creatorDepositValue,
+                value: creatorDepositValue,
             })
         } catch (error) {
             console.log(error);
