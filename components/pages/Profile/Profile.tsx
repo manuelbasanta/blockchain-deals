@@ -53,7 +53,7 @@ const Profile = () => {
   }
 
   useEffect(() => {
-    if(!results[selectedRole].loaded) getLogs();
+    if(!results[selectedRole].loaded && CHAIN_DATA[chain.id]) getLogs();
   }, [selectedRole, results]);
 
   useEffect(() => {
@@ -101,6 +101,16 @@ const Profile = () => {
     return elements
   }
 
+  const renderLoader = () => {
+    if(CHAIN_DATA[chain.id]) {
+      return (
+        <div className="flex">
+          <Loader />
+        </div>
+      )
+    } else return <div className="text-sm p-2">Selected network is not supported.</div>
+  }
+
   return (
     <div className="w-full">
       <div className="text-4xl font-bold">Address Deals</div>
@@ -134,12 +144,7 @@ const Profile = () => {
               return (
                 <div key={key} className={`${key === selectedRole ? 'block' : 'hidden'}`}>
                   {
-                    (results && results[key].loaded) ? 
-                      renderResults(results[key]) : (
-                      <div className="flex">
-                        <Loader />
-                      </div>
-                    )
+                    (results && results[key].loaded) ? renderResults(results[key]) : renderLoader()
                   }
                 </div>
               );
