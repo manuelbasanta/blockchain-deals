@@ -16,6 +16,7 @@ const WalletConnectContainer = ({
     const [loading, setLoading] = useState(true);
     const { isConnected } = useAccount();
     const { connect, connectors, error } = useConnect();
+    const errorObj:any =  error;
     const { isMobile } = useIsMobile();
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const WalletConnectContainer = ({
                     )})
                 }
               </div>
-              {error && <div>{error.shortMessage || error.message}</div>}
+              {error && <div>{errorObj.shortMessage || error.message}</div>}
             </div>
           </div>
         )
