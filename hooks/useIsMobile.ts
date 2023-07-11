@@ -6,7 +6,8 @@ const useIsMobile = () => {
         if (navigator && "maxTouchPoints" in navigator) {
             setHasTouchScreen(navigator.maxTouchPoints > 0);
         } else if (navigator && "msMaxTouchPoints" in navigator) {
-            setHasTouchScreen(navigator.msMaxTouchPoints > 0);
+            const navigationAny = navigator as any;
+            setHasTouchScreen(navigationAny.msMaxTouchPoints > 0);
         } else if(navigator) {
             const mQ = matchMedia?.("(pointer:coarse)");
             if (mQ?.media === "(pointer:coarse)") {
