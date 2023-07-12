@@ -8,7 +8,7 @@ const ProfileLayout = ({
   }) => {
     return (
       <WalletProvider>
-          <WalletConnectContainer message='Connet your wallet to see your Deals.'>
+          <WalletConnectContainer message='Connect your wallet to see your Deals.'>
               {children}
           </WalletConnectContainer>
       </WalletProvider>

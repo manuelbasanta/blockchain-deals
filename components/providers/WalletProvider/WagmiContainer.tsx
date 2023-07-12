@@ -2,6 +2,7 @@
 
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { mainnet, polygonMumbai, sepolia } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
@@ -12,11 +13,13 @@ const WagmiContainer =  ({
     sepoliaKey,
     mainnetKey,
     mumbaiKey,
+    projectId,
     children,
   }: {
     sepoliaKey: string,
     mainnetKey: string,
     mumbaiKey: string,
+    projectId: string,
     children: React.ReactNode;
   }) => {
     const { chains, publicClient, webSocketPublicClient } = configureChains(
@@ -39,6 +42,12 @@ const WagmiContainer =  ({
             appName: 'wagmi',
           },
         }),
+        new WalletConnectConnector({
+          chains,
+          options: {
+            projectId
+          }
+        })
       ],
       publicClient,
       webSocketPublicClient,
